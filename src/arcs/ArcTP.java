@@ -1,11 +1,17 @@
 package arcs;
 
 import classes.Arc;
+import classes.Place;
+import classes.Transition;
 
 public class ArcTP extends Arc {
 
-	public ArcTP() {
-		// TODO Auto-generated constructor stub
+	public ArcTP(int weight, Place place, Transition transition) {
+		super(weight, place, transition);
+	}
+	
+	public void distributeTokens() {
+		return;
 	}
 
 }
