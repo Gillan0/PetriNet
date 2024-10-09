@@ -26,7 +26,9 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public void addPlace(Place p) {
-		// TODO Auto-generated method stub
+		if (p != null) {
+			this.places.add(p);
+		}
 		
 	}
 
@@ -62,7 +64,9 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public void removePlace(Place p) {
-		// TODO Auto-generated method stub
+		if (p != null) {
+			this.places.remove(p);
+		}
 		
 	}
 
@@ -98,37 +102,37 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public ArrayList<Place> getPlaces() {
-		return new ArrayList<Place>();
+		return this.places;
 		
 	}
 
 	@Override
 	public ArrayList<ArcTP> getArcsTP() {
-		return new ArrayList<ArcTP>();
+		return this.arcsTP;
 		
 	}
 
 	@Override
 	public ArrayList<ArcPT> getArcsPT() {
-		return new ArrayList<ArcPT>();
+		return this.arcsPT;
 		
 	}
 
 	@Override
 	public ArrayList<ArcZero> getArcsZero() {
-		return new ArrayList<ArcZero>();
+		return this.arcsZero;
 		
 	}
 
 	@Override
 	public ArrayList<ArcDrain> getArcsDrain() {
-		return new ArrayList<ArcDrain>();
+		return this.arcsDrain;
 		
 	}
 
 	@Override
 	public ArrayList<Transition> getTransitions() {
-		return new ArrayList<Transition>();
+		return this.transitions;
 		
 	}
 
