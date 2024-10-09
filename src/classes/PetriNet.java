@@ -18,10 +18,6 @@ public class PetriNet implements IPetriNet {
 	public PetriNet() {
 		this.transitions = new ArrayList<Transition>();
 		this.places = new ArrayList<Place>();
-		this.arcsTP = new ArrayList<ArcTP>();
-		this.arcsPT = new ArrayList<ArcPT>();
-		this.arcsZero = new ArrayList<ArcZero>();
-		this.arcsDrain = new ArrayList<ArcDrain>();
 	}
 
 	@Override
@@ -32,26 +28,26 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void addArcTP(ArcTP a) throws Exception {
-		// TODO Auto-generated method stub
+	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception {
+		return new ArcTP(0, null, null);
 		
 	}
 
 	@Override
-	public void addArcPT(ArcPT a) throws Exception {
-		// TODO Auto-generated method stub
+	public ArcPT addArcPT(int w, Place p, Transition t) throws Exception {
+		return new ArcPT(0, null, null);
 		
 	}
 
 	@Override
-	public void addArcZero(ArcZero a) throws Exception {
-		// TODO Auto-generated method stub
+	public ArcZero addArcZero(int w, Place p, Transition t) throws Exception {
+		return new ArcZero(0, null, null);
 		
 	}
 
 	@Override
-	public void addArcDrain(ArcDrain a) throws Exception {
-		// TODO Auto-generated method stub
+	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception {
+		return new ArcDrain(0, null, null);
 		
 	}
 
@@ -69,25 +65,25 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void removeArcTP(ArcTP a) {
+	public void removeArcTP(Place p, Transition t) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeArcPT(ArcPT a) {
+	public void removeArcPT(Place p, Transition t) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeArcZero(ArcZero a) {
+	public void removeArcZero(Place p, Transition t) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeArcDrain(ArcDrain a) {
+	public void removeArcDrain(Place p, Transition t) {
 		// TODO Auto-generated method stub
 		
 	}

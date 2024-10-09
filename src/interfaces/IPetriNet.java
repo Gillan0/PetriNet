@@ -9,25 +9,25 @@ public interface IPetriNet {
 
 	public void addPlace(Place p) throws Exception;
 
-	public void addArcTP(ArcTP a) throws Exception;
+	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception;
 
-	public void addArcPT(ArcPT a) throws Exception;
+	public ArcPT addArcPT(int w, Place p, Transition t) throws Exception;
 	
-	public void addArcZero(ArcZero a) throws Exception;
+	public ArcZero addArcZero(int w, Place p, Transition t) throws Exception;
 
-	public void addArcDrain(ArcDrain a) throws Exception;
+	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception;
 	
 	public void addTransition(Transition t) throws Exception;
 	
 	public void removePlace(Place p);
 
-	public void removeArcTP(ArcTP a);
+	public void removeArcTP(Place p, Transition t);
 
-	public void removeArcPT(ArcPT a);
+	public void removeArcPT(Place p, Transition t);
 	
-	public void removeArcZero(ArcZero a);
+	public void removeArcZero(Place p, Transition t);
 
-	public void removeArcDrain(ArcDrain a);
+	public void removeArcDrain(Place p, Transition t);
 	
 	public void removeTransition(Transition t);
 	
