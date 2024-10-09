@@ -25,39 +25,38 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void addPlace(Place p) {
+	public void addPlace(Place p) throws Exception {
 		if (p != null) {
 			this.places.add(p);
 		}
-		
 	}
 
 	@Override
-	public void addArcTP(ArcTP a) {
+	public void addArcTP(ArcTP a) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addArcPT(ArcPT a) {
+	public void addArcPT(ArcPT a) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addArcZero(ArcZero a) {
+	public void addArcZero(ArcZero a) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addArcDrain(ArcDrain a) {
+	public void addArcDrain(ArcDrain a) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addTransition(Transition t) {
+	public void addTransition(Transition t) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -66,8 +65,7 @@ public class PetriNet implements IPetriNet {
 	public void removePlace(Place p) {
 		if (p != null) {
 			this.places.remove(p);
-		}
-		
+		}	
 	}
 
 	@Override
@@ -135,5 +133,22 @@ public class PetriNet implements IPetriNet {
 		return this.transitions;
 		
 	}
-
+	
+	public static void main(String[] args) {
+		Place p1 = new Place(0);
+		Place p2 = new Place(1);
+		Place p3 = new Place(2);
+		
+		PetriNet pN = new PetriNet();
+		System.out.println(pN.getPlaces());
+		try {
+			pN.addPlace(p1);
+			pN.addPlace(p2);
+			pN.addPlace(p3);
+		} catch (Exception e) {
+			System.out.println("Test not passed");
+		}
+		
+	}
+	
 }
