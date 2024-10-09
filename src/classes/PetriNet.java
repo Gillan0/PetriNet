@@ -1,6 +1,8 @@
 package classes;
 
-public class PetriNet {
+import interfaces.IPetriNet;
+
+public class PetriNet implements IPetriNet {
 
 	public PetriNet() {
 		// TODO Auto-generated constructor stub
