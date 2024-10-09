@@ -17,7 +17,8 @@ public class ArcPT extends Arc {
 	}
 	
 	public void removeTokens() {
-		return;
+		Place place = this.getPlace();
+		place.setTokens(place.getToken() - this.getWeight());
 	}
 
 }

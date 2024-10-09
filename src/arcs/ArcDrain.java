@@ -5,23 +5,26 @@ import classes.Arc;
 import classes.Place;
 import classes.Transition;
 
-public class ArcDrain extends Arc {
+public class ArcDrain extends ArcPT {
 
 	public ArcDrain(int weight, Place place, Transition transition) {
 		super(weight, place, transition);
 	}
 	
 	public boolean isFireable() {
+		if (this.isActive()) {
+			return super.isFireable();
+		}
+		return false;
+	}
+	
+	public boolean isActive() {
 		Place place = this.getPlace();
 		return place.getToken() > 0;
 	}
 	
-	public boolean isActive() {
-		return false;
-	}
-	
 	public void removeTokens() {
-		return;
+		this.getPlace().setTokens(0);
 	}
 
 }

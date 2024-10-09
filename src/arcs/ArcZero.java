@@ -5,19 +5,22 @@ import classes.Arc;
 import classes.Place;
 import classes.Transition;
 
-public class ArcZero extends Arc {
+public class ArcZero extends ArcPT {
 
 	public ArcZero(int weight, Place place, Transition transition) {
 		super(weight, place, transition);
 	}
 	
 	public boolean isFireable() {
-		Place place = this.getPlace();
-		return place.getToken() == 0;
+		if (this.isActive()) {
+			return super.isFireable();
+		}
+		return false;
 	}
 	
 	public boolean isActive() {
-		return false;
+		Place place = this.getPlace();
+		return place.getToken() == 0;
 	}
 
 }
