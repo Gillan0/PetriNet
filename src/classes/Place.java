@@ -4,8 +4,16 @@ public class Place {
 	
 	private int tokens;
 
-	public Place() {
-		// TODO Auto-generated constructor stub
+	public Place(int tokens) {
+		this.tokens = tokens;
 	}
-
+	
+	public void setTokens(int tokens) {
+		this.tokens = tokens;
+	}
+	
+	public int getToken() {
+		return this.tokens;
+	}
+	
 }
