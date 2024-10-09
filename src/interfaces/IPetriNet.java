@@ -7,7 +7,7 @@ import arcs.*;
 
 public interface IPetriNet {
 
-	public void addPlace(Place p) throws Exception;
+	public Place addPlace(int tokens) throws Exception;
 
 	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception;
 
@@ -17,7 +17,7 @@ public interface IPetriNet {
 
 	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception;
 	
-	public void addTransition(Transition t) throws Exception;
+	public Transition addTransition() throws Exception;
 	
 	public void removePlace(Place p);
 
