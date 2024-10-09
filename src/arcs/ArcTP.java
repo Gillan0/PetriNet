@@ -1,5 +1,6 @@
 package arcs;
 
+import Exceptions.NegativeException;
 import classes.Arc;
 import classes.Place;
 import classes.Transition;
