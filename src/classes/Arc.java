@@ -1,13 +1,16 @@
 package classes;
 
+import Exceptions.NegativeException;
+
 public class Arc {
 	
-	private int weight;
+	protected int weight;
 	private Place place;
 	private Transition transition;
 	
 
 	public Arc(int weight, Place place, Transition transition) {
+			
 		this.weight = weight;
 		this.place = place;
 		this.transition = transition;
