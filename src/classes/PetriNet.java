@@ -13,6 +13,7 @@ public class PetriNet implements IPetriNet {
 	public PetriNet() {
 		this.transitions = new ArrayList<Transition>();
 		this.places = new ArrayList<Place>();
+		
 	}
 
 	@Override
@@ -64,26 +65,30 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void removeArcTP(Place p, Transition t) {
-		// TODO Auto-generated method stub
+	public void removeArcTP(ArcTP a) {
+		Transition t = a.getTransition();
+		t.removeArcTP(a);
 		
 	}
 
 	@Override
-	public void removeArcPT(Place p, Transition t) {
-		// TODO Auto-generated method stub
+	public void removeArcPT(ArcPT a) {
+		Transition t = a.getTransition();
+		t.removeArcPT(a);
 		
 	}
 
 	@Override
-	public void removeArcZero(Place p, Transition t) {
-		// TODO Auto-generated method stub
+	public void removeArcZero(ArcZero a) {
+		Transition t = a.getTransition();
+		t.removeArcPT(a);
 		
 	}
 
 	@Override
-	public void removeArcDrain(Place p, Transition t) {
-		// TODO Auto-generated method stub
+	public void removeArcDrain(ArcDrain a) {
+		Transition t = a.getTransition();
+		t.removeArcPT(a);
 		
 	}
 

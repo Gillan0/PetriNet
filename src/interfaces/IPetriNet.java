@@ -21,13 +21,13 @@ public interface IPetriNet {
 	
 	public void removePlace(Place p);
 
-	public void removeArcTP(Place p, Transition t);
+	public void removeArcTP(ArcTP a);
 
-	public void removeArcPT(Place p, Transition t);
+	public void removeArcPT(ArcPT a);
 	
-	public void removeArcZero(Place p, Transition t);
+	public void removeArcZero(ArcZero a);
 
-	public void removeArcDrain(Place p, Transition t);
+	public void removeArcDrain(ArcDrain a);
 	
 	public void removeTransition(Transition t);
 	
