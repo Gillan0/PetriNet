@@ -2,7 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
-import Exceptions.NegativeException;
+import Exceptions.*;
 import arcs.*;
 import interfaces.IPetriNet;
 
@@ -19,38 +19,91 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public Place addPlace(int tokens) throws NegativeException {
+		
 		if (tokens < 0) {
 			throw new NegativeException("Place can't have a negative amount of tokens");
 		}
 		
-		
 		Place p = new Place(tokens);
 		this.places.add(p);
+		
 		return p;
 		
 		
 	}
 
 	@Override
-	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception {
+	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
+		if (w < 0) {
+			throw new NegativeException("Arc weight can't be negative");
+		}
+		
+		if (p == null) {
+			throw new MissingPlaceException("Place can't be null");
+		}
+		
+		if (t == null) {
+			throw new MissingTransitionException("Transition can't be null");
+		}
+		
 		return new ArcTP(w, p, t);
 		
 	}
 
 	@Override
-	public ArcPT addArcPT(int w, Place p, Transition t) throws Exception {
+	public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
+		if (w < 0) {
+			throw new NegativeException("Arc weight can't be negative");
+		}
+		
+		if (p == null) {
+			throw new MissingPlaceException("Place can't be null");
+		}
+		
+		if (t == null) {
+			throw new MissingTransitionException("Transition can't be null");
+		}
+		
 		return new ArcPT(w, p, t);
 		
 	}
 
 	@Override
-	public ArcZero addArcZero(int w, Place p, Transition t) throws Exception {
+	public ArcZero addArcZero(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
+		if (w < 0) {
+			throw new NegativeException("Arc weight can't be negative");
+		}
+		
+		if (p == null) {
+			throw new MissingPlaceException("Place can't be null");
+		}
+		
+		if (t == null) {
+			throw new MissingTransitionException("Transition can't be null");
+		}
+		
 		return new ArcZero(w, p, t);
 		
 	}
 
 	@Override
-	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception {
+	public ArcDrain addArcDrain(int w, Place p, Transition t)throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
+		if (w < 0) {
+			throw new NegativeException("Arc weight can't be negative");
+		}
+		
+		if (p == null) {
+			throw new MissingPlaceException("Place can't be null");
+		}
+		
+		if (t == null) {
+			throw new MissingTransitionException("Transition can't be null");
+		}
+		
 		return new ArcDrain(w, p, t);
 		
 	}
