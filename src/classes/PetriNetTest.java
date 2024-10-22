@@ -2,13 +2,33 @@ package classes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PetriNetTest {
-
+	
+	private PetriNet emptyPetriNet;
+	private PetriNet petriNet;
+	
+	@BeforeEach
+	void setup() {
+		this.emptyPetriNet = new PetriNet();
+		
+		this.petriNet = new PetriNet();
+		
+		
+		
+	}
+	
 	@Test
-	void testPetriNet() {
-		fail("Not yet implemented");
+	void testPetriNet() {		
+		assertEquals(this.emptyPetriNet.getPlaces().size(), 0);
+		assertEquals(this.emptyPetriNet.getTransitions().size(), 0);
+		assertEquals(this.emptyPetriNet.getArcsTP().size(), 0);
+		assertEquals(this.emptyPetriNet.getArcsPT().size(), 0);
+		assertEquals(this.emptyPetriNet.getArcsZero().size(), 0);
+		assertEquals(this.emptyPetriNet.getArcsDrain().size(), 0);
+		
 	}
 
 	@Test
