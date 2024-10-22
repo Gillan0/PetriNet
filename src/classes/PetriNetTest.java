@@ -1,5 +1,8 @@
 package classes;
 
+import Exceptions.*;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +19,6 @@ class PetriNetTest {
 		
 		this.petriNet = new PetriNet();
 		
-		
-		
 	}
 	
 	@Test
@@ -32,8 +33,22 @@ class PetriNetTest {
 	}
 
 	@Test
-	void testAddPlace() {
-		fail("Not yet implemented");
+	void testAddPlace() throws Exception {
+		Place p1 = this.petriNet.addPlace(0);
+		
+		assertEquals(this.petriNet.getPlaces().get(0), p1);
+		
+		Place p2 = this.petriNet.addPlace(5);
+		
+		assertEquals(this.petriNet.getPlaces().get(1), p2);
+		
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.addPlace(-1);
+		});
+		
+		assertEquals(p1.getToken(), 0);
+		assertEquals(p2.getToken(), 5);
+				
 	}
 
 	@Test

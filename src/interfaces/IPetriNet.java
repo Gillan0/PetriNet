@@ -3,11 +3,12 @@ import classes.*;
 
 import java.util.ArrayList;
 
+import Exceptions.NegativeException;
 import arcs.*;
 
 public interface IPetriNet {
 
-	public Place addPlace(int tokens) throws Exception;
+	public Place addPlace(int tokens) throws NegativeException;
 
 	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception;
 

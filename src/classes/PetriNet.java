@@ -2,6 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
+import Exceptions.NegativeException;
 import arcs.*;
 import interfaces.IPetriNet;
 
@@ -17,13 +18,17 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public Place addPlace(int tokens) throws Exception {
-		if (tokens >= 0) {
-			Place p = new Place(tokens);
-			this.places.add(p);
-			return p;
+	public Place addPlace(int tokens) throws NegativeException {
+		if (tokens < 0) {
+			throw new NegativeException("Place can't have a negative amount of tokens");
 		}
-		return null;
+		
+		
+		Place p = new Place(tokens);
+		this.places.add(p);
+		return p;
+		
+		
 	}
 
 	@Override
