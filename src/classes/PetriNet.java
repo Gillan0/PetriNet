@@ -9,11 +9,6 @@ public class PetriNet implements IPetriNet {
 	
 	private ArrayList<Transition> transitions;
 	private ArrayList<Place> places;
-	private ArrayList<ArcTP> arcsTP;
-	private ArrayList<ArcPT> arcsPT;
-	private ArrayList<ArcZero> arcsZero;
-	private ArrayList<ArcDrain> arcsDrain;
-	
 	
 	public PetriNet() {
 		this.transitions = new ArrayList<Transition>();
@@ -102,25 +97,104 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public ArrayList<ArcTP> getArcsTP() {
-		return this.arcsTP;
+		
+		ArrayList<ArcTP> arcsTP = new ArrayList<ArcTP>();
+		
+		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		
+		for (int i =0; i < transitions.size() ; i++) {
+		
+			ArrayList<ArcTP> subList = transitions.get(i).getArcsTP();
+			
+			for (int j=0 ; j < subList.size(); j++) {
+			
+				if (subList.get(j) instanceof ArcTP) {
+				
+					arcsTP.add(subList.get(j));
+				
+				}
+			
+			}
+			
+		}
+		
+		return arcsTP;
 		
 	}
 
 	@Override
 	public ArrayList<ArcPT> getArcsPT() {
-		return this.arcsPT;
+		ArrayList<ArcPT> arcsPT = new ArrayList<ArcPT>();
+		
+		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		
+		for (int i =0; i < transitions.size() ; i++) {
+		
+			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			
+			for (int j=0 ; j < subList.size(); j++) {
+			
+				if (subList.get(j) instanceof ArcPT) {
+				
+					arcsPT.add(subList.get(j));
+				
+				}
+			
+			}
+			
+		}
+		
+		return arcsPT;
 		
 	}
 
 	@Override
 	public ArrayList<ArcZero> getArcsZero() {
-		return this.arcsZero;
+		ArrayList<ArcZero> arcsZero = new ArrayList<ArcZero>();
+		
+		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		
+		for (int i =0; i < transitions.size() ; i++) {
+		
+			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			
+			for (int j=0 ; j < subList.size(); j++) {
+				
+				if (subList.get(j) instanceof ArcZero) {
+				
+					arcsZero.add((ArcZero) subList.get(j));		
+				}
+							
+			}
+			
+		}
+		
+		return arcsZero;
 		
 	}
 
 	@Override
 	public ArrayList<ArcDrain> getArcsDrain() {
-		return this.arcsDrain;
+		ArrayList<ArcDrain> arcsDrain = new ArrayList<ArcDrain>();
+		
+		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		
+		for (int i =0; i < transitions.size() ; i++) {
+		
+			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			
+			for (int j=0 ; j < subList.size(); j++) {
+				
+				if (subList.get(j) instanceof ArcDrain) {
+				
+					arcsDrain.add((ArcDrain) subList.get(j));		
+				}
+							
+			}
+			
+		}
+		
+		return arcsDrain;
 		
 	}
 
