@@ -16,10 +16,13 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void addPlace(Place p) throws Exception {
-		if (p != null) {
+	public Place addPlace(int tokens) throws Exception {
+		if (tokens >= 0) {
+			Place p = new Place(tokens);
 			this.places.add(p);
+			return p;
 		}
+		return null;
 	}
 
 	@Override
@@ -47,8 +50,9 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public void addTransition(Transition t) throws Exception {
-		// TODO Auto-generated method stub
+	public Transition addTransition() throws Exception {
+		Transition t = new Transition();
+		return t;
 		
 	}
 
@@ -205,16 +209,13 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	public static void main(String[] args) {
-		Place p1 = new Place(0);
-		Place p2 = new Place(1);
-		Place p3 = new Place(2);
 		
 		PetriNet pN = new PetriNet();
 		System.out.println(pN.getPlaces());
 		try {
-			pN.addPlace(p1);
-			pN.addPlace(p2);
-			pN.addPlace(p3);
+			pN.addPlace(0);
+			pN.addPlace(1);
+			pN.addPlace(2);
 		} catch (Exception e) {
 			System.out.println("Test not passed");
 		}
