@@ -3,34 +3,34 @@ import classes.*;
 
 import java.util.ArrayList;
 
-import Exceptions.NegativeException;
+import Exceptions.*;
 import arcs.*;
 
 public interface IPetriNet {
 
 	public Place addPlace(int tokens) throws NegativeException;
 
-	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception;
+	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException;
 
-	public ArcPT addArcPT(int w, Place p, Transition t) throws Exception;
+	public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException;
 	
-	public ArcZero addArcZero(int w, Place p, Transition t) throws Exception;
+	public ArcZero addArcZero(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException;
 
-	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception;
+	public ArcDrain addArcDrain(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException;
 	
-	public Transition addTransition() throws Exception;
+	public Transition addTransition();
 	
-	public void removePlace(Place p);
+	public void removePlace(Place p) throws MissingPlaceException;
 
-	public void removeArcTP(ArcTP a);
+	public void removeArcTP(ArcTP a) throws MissingArcException;
 
-	public void removeArcPT(ArcPT a);
+	public void removeArcPT(ArcPT a) throws MissingArcException;
 	
-	public void removeArcZero(ArcZero a);
+	public void removeArcZero(ArcZero a) throws MissingArcException;
 
-	public void removeArcDrain(ArcDrain a);
+	public void removeArcDrain(ArcDrain a) throws MissingArcException;
 	
-	public void removeTransition(Transition t);
+	public void removeTransition(Transition t) throws MissingTransitionException;
 	
 	public ArrayList<Place> getPlaces();
 
@@ -43,8 +43,5 @@ public interface IPetriNet {
 	public ArrayList<ArcDrain> getArcsDrain();
 	
 	public ArrayList<Transition> getTransitions();
-	
-	
-	
 	
 }

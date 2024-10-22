@@ -90,7 +90,7 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public ArcDrain addArcDrain(int w, Place p, Transition t)throws NegativeException, MissingPlaceException, MissingTransitionException {
+	public ArcDrain addArcDrain(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
 		
 		if (w < 0) {
 			throw new NegativeException("Arc weight can't be negative");
@@ -109,51 +109,100 @@ public class PetriNet implements IPetriNet {
 	}
 
 	@Override
-	public Transition addTransition() throws Exception {
+	public Transition addTransition() {
 		Transition t = new Transition();
+		
+		this.transitions.add(t);
+		
 		return t;
 		
 	}
 
 	@Override
-	public void removePlace(Place p) {
-		if (p != null) {
-			this.places.remove(p);
-		}	
+	public void removePlace(Place p) throws MissingPlaceException {
+		if (p == null) {
+			throw new MissingPlaceException("Place can not be null");
+		}
+		
+		if (!this.getPlaces().contains(p)) {
+			throw new MissingPlaceException("Place not in PetriNet");
+		}
+		
+		this.places.remove(p);
+		
 	}
 
 	@Override
-	public void removeArcTP(ArcTP a) {
+	public void removeArcTP(ArcTP a) throws MissingArcException {
+		if (a == null) {
+			throw new MissingArcException("Arc can not be null");
+		}
+		
+		if (!this.getArcsTP().contains(a)) {
+			throw new MissingArcException("Arc not in PetriNet");
+		}
+		
 		Transition t = a.getTransition();
 		t.removeArcTP(a);
 		
 	}
 
 	@Override
-	public void removeArcPT(ArcPT a) {
+	public void removeArcPT(ArcPT a) throws MissingArcException {
+		if (a == null) {
+			throw new MissingArcException("Arc can not be null");
+		}
+		
+		if (!this.getArcsPT().contains(a)) {
+			throw new MissingArcException("Arc not in PetriNet");
+		}
+		
 		Transition t = a.getTransition();
 		t.removeArcPT(a);
 		
 	}
 
 	@Override
-	public void removeArcZero(ArcZero a) {
+	public void removeArcZero(ArcZero a) throws MissingArcException {
+		if (a == null) {
+			throw new MissingArcException("Arc can not be null");
+		}
+		
+		if (!this.getArcsPT().contains((ArcPT) a)) {
+			throw new MissingArcException("Arc not in PetriNet");
+		}
+		
 		Transition t = a.getTransition();
-		t.removeArcPT(a);
+		t.removeArcPT((ArcPT) a);
 		
 	}
 
 	@Override
-	public void removeArcDrain(ArcDrain a) {
+	public void removeArcDrain(ArcDrain a) throws MissingArcException {
+		if (a == null) {
+			throw new MissingArcException("Arc can not be null");
+		}
+		
+		if (!this.getArcsPT().contains((ArcDrain) a)) {
+			throw new MissingArcException("Arc not in PetriNet");
+		}
+		
 		Transition t = a.getTransition();
-		t.removeArcPT(a);
+		t.removeArcPT((ArcDrain) a);
 		
 	}
 
 	@Override
-	public void removeTransition(Transition t) {
-		// TODO Auto-generated method stub
+	public void removeTransition(Transition t) throws MissingTransitionException {
+		if (t == null) {
+			throw new MissingTransitionException("Transition can not be null");
+		}
 		
+		if (!this.getTransitions().contains(t)) {
+			throw new MissingTransitionException("Transition not in PetriNet");
+		}
+		
+		this.transitions.remove(t);		
 	}
 
 	@Override

@@ -10,7 +10,8 @@ public class Transition {
 	private ArrayList<ArcPT> arcsPT;
 	
 	public Transition() {
-		// TODO Auto-generated constructor stub
+		this.arcsTP = new ArrayList<ArcTP>();
+		this.arcsPT = new ArrayList<ArcPT>();
 	}
 	
 	public void addArcTP(ArcTP a) {
