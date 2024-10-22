@@ -27,25 +27,25 @@ public class PetriNet implements IPetriNet {
 
 	@Override
 	public ArcTP addArcTP(int w, Place p, Transition t) throws Exception {
-		return new ArcTP(0, null, null);
+		return new ArcTP(w, p, t);
 		
 	}
 
 	@Override
 	public ArcPT addArcPT(int w, Place p, Transition t) throws Exception {
-		return new ArcPT(0, null, null);
+		return new ArcPT(w, p, t);
 		
 	}
 
 	@Override
 	public ArcZero addArcZero(int w, Place p, Transition t) throws Exception {
-		return new ArcZero(0, null, null);
+		return new ArcZero(w, p, t);
 		
 	}
 
 	@Override
 	public ArcDrain addArcDrain(int w, Place p, Transition t) throws Exception {
-		return new ArcDrain(0, null, null);
+		return new ArcDrain(w, p, t);
 		
 	}
 
@@ -208,18 +208,5 @@ public class PetriNet implements IPetriNet {
 		
 	}
 	
-	public static void main(String[] args) {
-		
-		PetriNet pN = new PetriNet();
-		System.out.println(pN.getPlaces());
-		try {
-			pN.addPlace(0);
-			pN.addPlace(1);
-			pN.addPlace(2);
-		} catch (Exception e) {
-			System.out.println("Test not passed");
-		}
-		
-	}
 	
 }
