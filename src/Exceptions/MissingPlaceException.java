@@ -1,27 +1,28 @@
 package Exceptions;
 
-public class NegativeException extends Exception {
+public class MissingPlaceException extends Exception {
 
-	public NegativeException() {
+	public MissingPlaceException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public NegativeException(String message) {
+	public MissingPlaceException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
 
-	public NegativeException(Throwable cause) {
+	public MissingPlaceException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
 
-	public NegativeException(String message, Throwable cause) {
+	public MissingPlaceException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public NegativeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+
+	public MissingPlaceException(String message, Throwable cause, boolean enableSuppression,
+			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
