@@ -2,8 +2,8 @@ package classes;
 
 import java.util.ArrayList;
 
-import Exceptions.*;
 import arcs.*;
+import exceptions.*;
 import interfaces.IPetriNet;
 
 public class PetriNet implements IPetriNet {
@@ -28,13 +28,10 @@ public class PetriNet implements IPetriNet {
 		this.places.add(p);
 		
 		return p;
-		
-		
+			
 	}
-
-	@Override
-	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
-		
+	
+	public void checkAddArcExceptions(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
 		if (w < 0) {
 			throw new NegativeException("Arc weight can't be negative");
 		}
@@ -46,6 +43,13 @@ public class PetriNet implements IPetriNet {
 		if (t == null) {
 			throw new MissingTransitionException("Transition can't be null");
 		}
+	}
+
+
+	@Override
+	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
+		checkAddArcExceptions(w, p ,t);
 		
 		return new ArcTP(w, p, t);
 		
@@ -54,17 +58,7 @@ public class PetriNet implements IPetriNet {
 	@Override
 	public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
 		
-		if (w < 0) {
-			throw new NegativeException("Arc weight can't be negative");
-		}
-		
-		if (p == null) {
-			throw new MissingPlaceException("Place can't be null");
-		}
-		
-		if (t == null) {
-			throw new MissingTransitionException("Transition can't be null");
-		}
+		checkAddArcExceptions(w, p ,t);
 		
 		return new ArcPT(w, p, t);
 		
@@ -73,17 +67,7 @@ public class PetriNet implements IPetriNet {
 	@Override
 	public ArcZero addArcZero(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
 		
-		if (w < 0) {
-			throw new NegativeException("Arc weight can't be negative");
-		}
-		
-		if (p == null) {
-			throw new MissingPlaceException("Place can't be null");
-		}
-		
-		if (t == null) {
-			throw new MissingTransitionException("Transition can't be null");
-		}
+		checkAddArcExceptions(w, p ,t);
 		
 		return new ArcZero(w, p, t);
 		
@@ -92,22 +76,12 @@ public class PetriNet implements IPetriNet {
 	@Override
 	public ArcDrain addArcDrain(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
 		
-		if (w < 0) {
-			throw new NegativeException("Arc weight can't be negative");
-		}
-		
-		if (p == null) {
-			throw new MissingPlaceException("Place can't be null");
-		}
-		
-		if (t == null) {
-			throw new MissingTransitionException("Transition can't be null");
-		}
+		checkAddArcExceptions(w, p ,t);
 		
 		return new ArcDrain(w, p, t);
 		
 	}
-
+	
 	@Override
 	public Transition addTransition() {
 		Transition t = new Transition();

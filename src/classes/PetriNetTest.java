@@ -1,12 +1,11 @@
 package classes;
 
-import Exceptions.*;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import arcs.*;
+import exceptions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

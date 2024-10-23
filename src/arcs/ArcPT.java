@@ -1,9 +1,9 @@
 package arcs;
 
-import Exceptions.NegativeException;
 import classes.Arc;
 import classes.Place;
 import classes.Transition;
+import exceptions.NegativeException;
 
 public class ArcPT extends Arc {
 	

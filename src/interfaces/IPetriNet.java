@@ -1,9 +1,9 @@
 package interfaces;
 import classes.*;
+import exceptions.*;
 
 import java.util.ArrayList;
 
-import Exceptions.*;
 import arcs.*;
 
 public interface IPetriNet {
