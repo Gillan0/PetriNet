@@ -1,6 +1,6 @@
 package classes;
 
-import exceptions.NegativeException;
+import exception.NegativeException;
 
 public class Arc {
 	

@@ -3,7 +3,7 @@ package classes;
 import java.util.ArrayList;
 
 import arcs.*;
-import exceptions.*;
+import exception.*;
 import interfaces.IPetriNet;
 
 public class PetriNet implements IPetriNet {
@@ -12,6 +12,7 @@ public class PetriNet implements IPetriNet {
 	private ArrayList<Place> places;
 	
 	public PetriNet() {
+		
 		this.transitions = new ArrayList<Transition>();
 		this.places = new ArrayList<Place>();
 		
@@ -32,6 +33,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	public void checkAddArcExceptions(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+		
 		if (w < 0) {
 			throw new NegativeException("Arc weight can't be negative");
 		}
@@ -43,43 +45,94 @@ public class PetriNet implements IPetriNet {
 		if (t == null) {
 			throw new MissingTransitionException("Transition can't be null");
 		}
+	
 	}
-
-
-	@Override
-	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+	
+	public void checkDuplicateArcTP(Place p, Transition t) throws DuplicateArcException {
 		
-		checkAddArcExceptions(w, p ,t);
+		ArrayList<ArcTP> arcs = t.getArcsTP();
 		
-		return new ArcTP(w, p, t);
-		
-	}
-
-	@Override
-	public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
-		
-		checkAddArcExceptions(w, p ,t);
-		
-		return new ArcPT(w, p, t);
+		for (int i = 0; i < arcs.size(); i++) {
+			
+			if (arcs.get(i).getPlace() == p) {
+				
+				throw new DuplicateArcException("An Arc already exists between this place and this transition");
+				
+			}
+			
+		}
 		
 	}
-
+	
+	public void checkDuplicateArcPT(Place p, Transition t) throws DuplicateArcException {
+		
+		ArrayList<ArcPT> arcs = t.getArcsPT();
+		
+		for (int i = 0; i < arcs.size(); i++) {
+			
+			if (arcs.get(i).getPlace() == p) {
+				
+				throw new DuplicateArcException("An Arc already exists between this place and this transition");
+				
+			}
+			
+		}
+		
+	}
+	
 	@Override
-	public ArcZero addArcZero(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+	public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
 		
 		checkAddArcExceptions(w, p ,t);
+		checkDuplicateArcTP(p, t);
 		
-		return new ArcZero(w, p, t);
+		ArcTP arc = new ArcTP(w,p,t);
+		
+		t.addArcTP(arc);
+		
+		return arc;
 		
 	}
 
 	@Override
-	public ArcDrain addArcDrain(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+	public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
 		
 		checkAddArcExceptions(w, p ,t);
+		checkDuplicateArcPT(p, t);
 		
-		return new ArcDrain(w, p, t);
+		ArcPT arc = new ArcPT(w,p,t);
 		
+		t.addArcPT(arc);
+		
+		return arc;
+		
+	}
+
+	@Override
+	public ArcZero addArcZero(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
+		
+		checkAddArcExceptions(w, p ,t);
+		checkDuplicateArcPT(p, t);
+		
+		ArcZero arc = new ArcZero(w,p,t);
+		
+		t.addArcPT((ArcPT) arc);
+		
+		return arc;
+		
+	}
+
+	@Override
+	public ArcDrain addArcDrain(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
+		
+		checkAddArcExceptions(w, p ,t);
+		checkDuplicateArcPT(p, t);
+		
+		ArcDrain arc = new ArcDrain(w,p,t);
+		
+		t.addArcPT((ArcPT) arc);
+		
+		return arc;		
 	}
 	
 	@Override
@@ -162,7 +215,7 @@ public class PetriNet implements IPetriNet {
 		}
 		
 		Transition t = a.getTransition();
-		t.removeArcPT((ArcDrain) a);
+		t.removeArcPT((ArcPT) a);
 		
 	}
 
@@ -190,11 +243,9 @@ public class PetriNet implements IPetriNet {
 		
 		ArrayList<ArcTP> arcsTP = new ArrayList<ArcTP>();
 		
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		for (int i =0; i < this.transitions.size() ; i++) {
 		
-		for (int i =0; i < transitions.size() ; i++) {
-		
-			ArrayList<ArcTP> subList = transitions.get(i).getArcsTP();
+			ArrayList<ArcTP> subList = this.transitions.get(i).getArcsTP();
 			
 			for (int j=0 ; j < subList.size(); j++) {
 			
@@ -216,11 +267,9 @@ public class PetriNet implements IPetriNet {
 	public ArrayList<ArcPT> getArcsPT() {
 		ArrayList<ArcPT> arcsPT = new ArrayList<ArcPT>();
 		
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		for (int i =0; i < this.transitions.size() ; i++) {
 		
-		for (int i =0; i < transitions.size() ; i++) {
-		
-			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			ArrayList<ArcPT> subList = this.transitions.get(i).getArcsPT();
 			
 			for (int j=0 ; j < subList.size(); j++) {
 			
@@ -242,11 +291,9 @@ public class PetriNet implements IPetriNet {
 	public ArrayList<ArcZero> getArcsZero() {
 		ArrayList<ArcZero> arcsZero = new ArrayList<ArcZero>();
 		
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		for (int i =0; i < this.transitions.size() ; i++) {
 		
-		for (int i =0; i < transitions.size() ; i++) {
-		
-			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			ArrayList<ArcPT> subList = this.transitions.get(i).getArcsPT();
 			
 			for (int j=0 ; j < subList.size(); j++) {
 				
@@ -267,11 +314,9 @@ public class PetriNet implements IPetriNet {
 	public ArrayList<ArcDrain> getArcsDrain() {
 		ArrayList<ArcDrain> arcsDrain = new ArrayList<ArcDrain>();
 		
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
+		for (int i =0; i < this.transitions.size() ; i++) {
 		
-		for (int i =0; i < transitions.size() ; i++) {
-		
-			ArrayList<ArcPT> subList = transitions.get(i).getArcsPT();
+			ArrayList<ArcPT> subList = this.transitions.get(i).getArcsPT();
 			
 			for (int j=0 ; j < subList.size(); j++) {
 				

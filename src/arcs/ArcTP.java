@@ -3,7 +3,7 @@ package arcs;
 import classes.Arc;
 import classes.Place;
 import classes.Transition;
-import exceptions.NegativeException;
+import exception.NegativeException;
 
 public class ArcTP extends Arc {
 
