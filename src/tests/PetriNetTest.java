@@ -1,12 +1,12 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import arcs.*;
 import classes.*;
 import exception.*;
+import exception.NegativeException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ class PetriNetTest {
 	}
 
 	@Test
-	void testAddPlace() throws Exception{
+	void testAddPlace() throws Exception {
 		
 		Place p1 = this.emptyPetriNet.addPlace(0);
 		this.emptyPlaces.add(p1);
@@ -500,6 +500,7 @@ class PetriNetTest {
 
 	@Test
 	void testRemoveTransition() throws Exception {
+		
 		assertThrows(MissingTransitionException.class, () -> {
 			this.emptyPetriNet.removeTransition(null);
 		});
@@ -527,33 +528,107 @@ class PetriNetTest {
 	}
 
 	@Test
-	void testGetPlaces() {
-		fail("Not yet implemented");
+	void testGetPlaces() throws Exception {
+
+		assertEquals(this.emptyPetriNet.getPlaces().size(),0);
+		assertEquals(this.petriNet.getPlaces().size(),3);
+
+		Place p = this.emptyPetriNet.addPlace(0);
+		assertEquals(this.emptyPetriNet.getPlaces().size(), 1);
+		assertEquals(this.emptyPetriNet.getPlaces().contains(p), true);
+		
+		this.emptyPetriNet.removePlace(p);
+		assertEquals(this.emptyPetriNet.getPlaces().size(), 0);
+		assertEquals(this.emptyPetriNet.getPlaces().contains(p), false);
+		
 	}
 
 	@Test
-	void testGetArcsTP() {
-		fail("Not yet implemented");
+	void testGetArcsTP() throws Exception {
+
+		assertEquals(this.petriNet.getArcsTP().size(), 0);
+		
+		ArcTP a1 = this.petriNet.addArcTP(0, this.places.get(0), this.transitions.get(0));
+		ArcTP a2 = this.petriNet.addArcTP(1, this.places.get(1), this.transitions.get(0));
+		
+		assertEquals(this.petriNet.getArcsTP().size(), 2);
+		assertEquals(this.petriNet.getArcsTP().contains(a1), true);
+		assertEquals(this.petriNet.getArcsTP().contains(a2), true);
+		
+		this.petriNet.removeArcTP(a1);
+		assertEquals(this.petriNet.getArcsTP().size(), 1);
+		assertEquals(this.petriNet.getArcsTP().contains(a1), false);
+		
 	}
 
 	@Test
-	void testGetArcsPT() {
-		fail("Not yet implemented");
+	void testGetArcsPT() throws Exception {
+
+		assertEquals(this.petriNet.getArcsPT().size(), 0);
+		
+		ArcPT a1 = this.petriNet.addArcPT(0, this.places.get(0), this.transitions.get(0));
+		ArcPT a2 = this.petriNet.addArcPT(1, this.places.get(1), this.transitions.get(0));
+		
+		assertEquals(this.petriNet.getArcsPT().size(), 2);
+		assertEquals(this.petriNet.getArcsPT().contains(a1), true);
+		assertEquals(this.petriNet.getArcsPT().contains(a2), true);
+		
+		this.petriNet.removeArcPT(a1);
+		assertEquals(this.petriNet.getArcsPT().size(), 1);
+		assertEquals(this.petriNet.getArcsPT().contains(a1), false);
+		
 	}
 
 	@Test
-	void testGetArcsZero() {
-		fail("Not yet implemented");
+	void testGetArcsZero() throws Exception {
+		
+		assertEquals(this.petriNet.getArcsZero().size(), 0);
+		
+		ArcZero a1 = this.petriNet.addArcZero(0, this.places.get(0), this.transitions.get(0));
+		ArcZero a2 = this.petriNet.addArcZero(1, this.places.get(1), this.transitions.get(0));
+		
+		assertEquals(this.petriNet.getArcsZero().size(), 2);
+		assertEquals(this.petriNet.getArcsZero().contains(a1), true);
+		assertEquals(this.petriNet.getArcsZero().contains(a2), true);
+		
+		this.petriNet.removeArcZero(a1);
+		assertEquals(this.petriNet.getArcsZero().size(), 1);
+		assertEquals(this.petriNet.getArcsZero().contains(a1), false);
+		
 	}
 
 	@Test
-	void testGetArcsDrain() {
-		fail("Not yet implemented");
+	void testGetArcsDrain() throws Exception {
+
+		assertEquals(this.petriNet.getArcsDrain().size(), 0);
+		
+		ArcDrain a1 = this.petriNet.addArcDrain(0, this.places.get(0), this.transitions.get(0));
+		ArcDrain a2 = this.petriNet.addArcDrain(1, this.places.get(1), this.transitions.get(0));
+		
+		assertEquals(this.petriNet.getArcsDrain().size(), 2);
+		assertEquals(this.petriNet.getArcsDrain().contains(a1), true);
+		assertEquals(this.petriNet.getArcsDrain().contains(a2), true);
+		
+		this.petriNet.removeArcDrain(a1);
+		assertEquals(this.petriNet.getArcsDrain().size(), 1);
+		assertEquals(this.petriNet.getArcsDrain().contains(a1), false);
+		
 	}
 
 	@Test
-	void testGetTransitions() {
-		fail("Not yet implemented");
+	void testGetTransitions() throws Exception {
+
+		assertEquals(this.emptyPetriNet.getTransitions().size(),0);
+		assertEquals(this.petriNet.getTransitions().size(),2);
+
+		Transition t = this.emptyPetriNet.addTransition();
+		assertEquals(this.emptyPetriNet.getTransitions().size(), 1);
+		assertEquals(this.emptyPetriNet.getTransitions().contains(t), true);
+		
+		this.emptyPetriNet.removeTransition(t);
+		assertEquals(this.emptyPetriNet.getTransitions().size(), 0);
+		assertEquals(this.emptyPetriNet.getTransitions().contains(t), false);
+		
 	}
 
 }
