@@ -102,7 +102,7 @@ class PetriNetTest {
 					this.petriNet.getPlaces().get(0),
 					this.petriNet.getTransitions().get(0)
 				);
-		});
+			});
 
 		assertThrows(MissingPlaceException.class, () -> {
 			this.petriNet.addArcTP(10,

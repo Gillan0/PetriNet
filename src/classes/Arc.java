@@ -2,31 +2,57 @@ package classes;
 
 import exception.NegativeException;
 
+/**
+ * The Arc class models an arc in a Petri net, connecting a Place and a Transition with a specific weight.
+ */
 public class Arc {
-	
-	protected int weight;
-	private Place place;
-	private Transition transition;
-	
 
-	public Arc(int weight, Place place, Transition transition) {
-			
-		this.weight = weight;
-		this.place = place;
-		this.transition = transition;
-	}
-	
-	public Place getPlace() {
-		return this.place;
-		
-	}
-	
-	public int getWeight() {
-		return this.weight;
-	}
-	
-	public Transition getTransition() {
-		return this.transition;
-	}
+    // Weight of the arc, representing the number of tokens transferred upon firing a transition.
+    protected int weight;
+    
+    // The Place linked to this arc.
+    private Place place;
+    
+    // The Transition linked to this arc.
+    private Transition transition;
+
+    /**
+     * Constructor to initialize an Arc with a weight, a Place, and a Transition.
+     *
+     * @param weight      The number of tokens this arc transfers when the transition fires.
+     * @param place       The Place connected to this arc.
+     * @param transition  The Transition connected to this arc.
+     */
+    public Arc(int weight, Place place, Transition transition) {
+        this.weight = weight;
+        this.place = place;
+        this.transition = transition;
+    }
+
+    /**
+     * Retrieves the Place associated with this arc.
+     *
+     * @return the Place connected to this arc.
+     */
+    public Place getPlace() {
+        return this.place;
+    }
+
+    /**
+     * Retrieves the weight of this arc.
+     *
+     * @return the number of tokens this arc transfers.
+     */
+    public int getWeight() {
+        return this.weight;
+    }
+
+    /**
+     * Retrieves the Transition associated with this arc.
+     *
+     * @return the Transition connected to this arc.
+     */
+    public Transition getTransition() {
+        return this.transition;
+    }
 }
-	
