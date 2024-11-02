@@ -349,4 +349,18 @@ public class PetriNet implements IPetriNet {
 	public ArrayList<Transition> getTransitions() {
 	    return this.transitions;
 	}
+	
+	/**
+	 *  Fires a Transition.
+	 * @param t The Transition to fire.
+	 * @throws NonFireableTransitionException 
+	 */
+	public void fireTransition(Transition t) throws NonFireableTransitionException {
+		if (t.isFireable()) {
+			t.fire();
+		}
+		else {
+			throw new NonFireableTransitionException("Transition cannot be fired");
+		}
+	}
 }
