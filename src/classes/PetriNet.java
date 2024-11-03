@@ -7,18 +7,18 @@ import exception.*;
 import interfaces.IPetriNet;
 
 /**
- * PetriNet implements the IPetriNet interface, providing methods to manage places, transitions, and various arcs in a Petri net, including adding, removing, and retrieving components.
+ * PetriNet implements the IPetriNet interface, providing methods to manage places, transitions, and various arcs in a PetriNet, including adding, removing, and retrieving components.
  */
 public class PetriNet implements IPetriNet {
 
-    // List of transitions in the Petri net.
+    // List of transitions in the PetriNet.
     private ArrayList<Transition> transitions;
     
-    // List of places in the Petri net.
+    // List of places in the PetriNet.
     private ArrayList<Place> places;
 
     /**
-     * Default constructor to initialize the Petri net with empty lists of places and transitions.
+     * Default constructor to initialize the PetriNet with empty lists of places and transitions.
      */
     public PetriNet() {
         this.transitions = new ArrayList<Transition>();
@@ -26,7 +26,7 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Adds a new Place with a specified number of tokens to the Petri net.
+     * Adds a new Place with a specified number of tokens to the PetriNet.
      *
      * @param tokens Initial token count for the Place.
      * @return The created Place object.
@@ -97,7 +97,7 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Adds an ArcTP (Transition to Place) to the Petri net.
+     * Adds an ArcTP (Transition to Place) to the PetriNet.
      *
      * @param w Weight of the arc.
      * @param p Place involved in the arc.
@@ -114,7 +114,7 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Adds an ArcPT (Place to Transition) to the Petri net.
+     * Adds an ArcPT (Place to Transition) to the PetriNet.
      *
      * @param w Weight of the arc.
      * @param p Place involved in the arc.
@@ -131,10 +131,10 @@ public class PetriNet implements IPetriNet {
     }
 
     // Other methods like addArcZero, addArcDrain, addTransition, removePlace, and more follow similar patterns
-    // for adding, removing, and managing arcs and transitions in the Petri net.
+    // for adding, removing, and managing arcs and transitions in the PetriNet.
 
     /**
-     * Retrieves all Places in the Petri net.
+     * Retrieves all Places in the PetriNet.
      *
      * @return List of Place objects.
      */
@@ -144,7 +144,7 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Retrieves all ArcTP arcs in the Petri net by iterating over each Transition and collecting its outgoing arcs.
+     * Retrieves all ArcTP arcs in the PetriNet by iterating over each Transition and collecting its outgoing arcs.
      *
      * @return List of ArcTP objects.
      */
@@ -158,7 +158,7 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Retrieves all ArcPT arcs in the Petri net by iterating over each Transition and collecting its incoming arcs.
+     * Retrieves all ArcPT arcs in the PetriNet by iterating over each Transition and collecting its incoming arcs.
      *
      * @return List of ArcPT objects.
      */
@@ -173,7 +173,7 @@ public class PetriNet implements IPetriNet {
 	
 	
 	/**
-	 * Adds a new ArcZero to the Petri net.
+	 * Adds a new ArcZero to the PetriNet.
 	 *
 	 * @param w Weight of the arc.
 	 * @param p Place involved in the arc.
@@ -191,7 +191,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Adds a new ArcDrain to the Petri net.
+	 * Adds a new ArcDrain to the PetriNet.
 	 *
 	 * @param w Weight of the arc.
 	 * @param p Place involved in the arc.
@@ -209,7 +209,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Adds a new Transition to the Petri net.
+	 * Adds a new Transition to the PetriNet.
 	 *
 	 * @return The created Transition object.
 	 */
@@ -221,21 +221,37 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Removes a Place from the Petri net.
+	 * Removes a Place from the PetriNet. If linked to any Arc, removes said Arc from the PetriNet.
 	 *
 	 * @param p The Place to remove.
-	 * @throws MissingPlaceException If the Place is not found in the net.
+	 * @throws MissingPlaceException If the Place is not found in the net
+	 * @throws MissingArcException Remnant from removal of all Arcs linked to the Place. By construction it shouldn't be called.
 	 */
 	@Override
-	public void removePlace(Place p) throws MissingPlaceException {
+	public void removePlace(Place p) throws MissingPlaceException, MissingArcException {
 	    if (p == null || !this.places.contains(p)) {
 	        throw new MissingPlaceException("Place not in PetriNet");
 	    }
+	    
+	    for (Transition  t: this.getTransitions()) {
+	    	for (ArcTP arcTP : t.getArcsTP()) {
+	    		if (arcTP.getPlace() == p) {
+	    			this.removeArcTP(arcTP);
+	    		}
+	    	}
+	    	
+	    	for (ArcPT arcPT : t.getArcsPT()) {
+	    		if (arcPT.getPlace() == p) {
+	    			this.removeArcPT(arcPT);
+	    		}
+	    	}
+	    }
+	    
 	    this.places.remove(p);
 	}
 	
 	/**
-	 * Removes an ArcTP from the Petri net.
+	 * Removes an ArcTP from the PetriNet.
 	 *
 	 * @param a The ArcTP to remove.
 	 * @throws MissingArcException If the ArcTP is not found in the net.
@@ -249,7 +265,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Removes an ArcPT from the Petri net.
+	 * Removes an ArcPT from the PetriNet.
 	 *
 	 * @param a The ArcPT to remove.
 	 * @throws MissingArcException If the ArcPT is not found in the net.
@@ -263,7 +279,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Removes an ArcZero from the Petri net.
+	 * Removes an ArcZero from the PetriNet.
 	 *
 	 * @param a The ArcZero to remove.
 	 * @throws MissingArcException If the ArcZero is not found in the net.
@@ -277,7 +293,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Removes an ArcDrain from the Petri net.
+	 * Removes an ArcDrain from the PetriNet.
 	 *
 	 * @param a The ArcDrain to remove.
 	 * @throws MissingArcException If the ArcDrain is not found in the net.
@@ -291,7 +307,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Removes a Transition from the Petri net.
+	 * Removes a Transition from the PetriNet. If linked to any Arc, removes said Arc from the PetriNet.
 	 *
 	 * @param t The Transition to remove.
 	 * @throws MissingTransitionException If the Transition is not found in the net.
@@ -301,11 +317,12 @@ public class PetriNet implements IPetriNet {
 	    if (t == null || !this.transitions.contains(t)) {
 	        throw new MissingTransitionException("Transition not in PetriNet");
 	    }
+	    
 	    this.transitions.remove(t);
 	}
 	
 	/**
-	 * Retrieves all ArcZero objects in the Petri net.
+	 * Retrieves all ArcZero objects in the PetriNet.
 	 *
 	 * @return A list of ArcZero objects.
 	 */
@@ -323,7 +340,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Retrieves all ArcDrain objects in the Petri net.
+	 * Retrieves all ArcDrain objects in the PetriNet.
 	 *
 	 * @return A list of ArcDrain objects.
 	 */
@@ -341,7 +358,7 @@ public class PetriNet implements IPetriNet {
 	}
 	
 	/**
-	 * Retrieves all Transitions in the Petri net.
+	 * Retrieves all Transitions in the PetriNet.
 	 *
 	 * @return List of Transition objects.
 	 */
@@ -355,12 +372,11 @@ public class PetriNet implements IPetriNet {
 	 * @param t The Transition to fire.
 	 * @throws NonFireableTransitionException 
 	 */
-	public void fireTransition(Transition t) throws NonFireableTransitionException {
-		if (t.isFireable()) {
-			t.fire();
+	public void fireTransition(Transition t) throws NotFireableTransitionException {
+		if (!t.isFireable()) {
+			throw new NotFireableTransitionException("Transition cannot be fired");
 		}
-		else {
-			throw new NonFireableTransitionException("Transition cannot be fired");
-		}
+		
+		t.fire();
 	}
 }

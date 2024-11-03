@@ -1,5 +1,6 @@
 package classes;
 
+
 /**
  * Place models a location in the Petri net where tokens are held.
  * Tokens in a Place determine if a Transition can fire, based on arc conditions.
@@ -8,7 +9,7 @@ public class Place {
 
     // The number of tokens currently held in this Place.
     private int tokens;
-
+       
     /**
      * Constructor to create a Place with a specified initial number of tokens.
      *
@@ -35,4 +36,6 @@ public class Place {
     public int getToken() {
         return this.tokens;
     }
+    
+    
 }

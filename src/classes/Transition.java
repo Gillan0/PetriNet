@@ -91,7 +91,7 @@ public class Transition {
      * Checks if the transition is can be fired
      * @return true if the Transition is Fireable, false otherwise.
      */
-    boolean isFireable() {
+    public boolean isFireable() {
         for (ArcPT aPT : this.arcsPT) {
             if (!aPT.isFireable()) {
                 // Transition is not enabled
@@ -107,16 +107,12 @@ public class Transition {
     public void fire() {
         // Consume tokens from all input places
         for (ArcPT aPT : this.arcsPT) {
-            Place p = aPT.getPlace();
-            int newTokenCount = p.getToken() - aPT.getWeight();
-            p.setTokens(newTokenCount);
+            aPT.removeTokens();
         }
 
         // Produce tokens to all output places
         for (ArcTP aTP : this.arcsTP) {
-            Place p = aTP.getPlace();
-            int newTokenCount = p.getToken() + aTP.getWeight();
-            p.setTokens(newTokenCount);
+            aTP.distributeTokens();
         }
 
     }
