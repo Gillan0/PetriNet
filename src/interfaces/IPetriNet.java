@@ -91,7 +91,7 @@ public interface IPetriNet {
      *
      * @param p The Place to remove.
      * @throws MissingPlaceException If the Place does not exist in the net.
-     * @throws MissingArcException 
+     * @throws MissingArcException Remnant from removal of all Arcs linked to the Place. By construction it shouldn't be called.
      */
     public void removePlace(Place p) throws MissingPlaceException, MissingArcException;
 
@@ -132,9 +132,8 @@ public interface IPetriNet {
      *
      * @param t The Transition to remove.
      * @throws MissingTransitionException If the Transition does not exist in the net.
-     * @throws MissingArcException 
      */
-    public void removeTransition(Transition t) throws MissingTransitionException, MissingArcException;
+    public void removeTransition(Transition t) throws MissingTransitionException;
 
     /**
      * Retrieves all Places in the Petri net.

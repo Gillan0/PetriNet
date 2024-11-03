@@ -370,7 +370,7 @@ public class PetriNet implements IPetriNet {
 	/**
 	 *  Fires a Transition.
 	 * @param t The Transition to fire.
-	 * @throws NonFireableTransitionException 
+	 * @throws NotFireableTransitionException Transition is not fireable
 	 */
 	public void fireTransition(Transition t) throws NotFireableTransitionException {
 		if (!t.isFireable()) {
