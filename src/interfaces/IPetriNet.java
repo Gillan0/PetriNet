@@ -11,6 +11,48 @@ import arcs.*;
 public interface IPetriNet {
 
     /**
+     * Retrieves all Places in the Petri net.
+     *
+     * @return An ArrayList of Place objects.
+     */
+    public ArrayList<Place> getPlaces();
+
+    /**
+     * Retrieves all ArcTP (Transition to Place arcs) in the Petri net.
+     *
+     * @return An ArrayList of ArcTP objects.
+     */
+    public ArrayList<ArcTP> getArcsTP();
+
+    /**
+     * Retrieves all ArcPT (Place to Transition arcs) in the Petri net.
+     *
+     * @return An ArrayList of ArcPT objects.
+     */
+    public ArrayList<ArcPT> getArcsPT();
+
+    /**
+     * Retrieves all ArcZero arcs in the Petri net.
+     *
+     * @return An ArrayList of ArcZero objects.
+     */
+    public ArrayList<ArcZero> getArcsZero();
+
+    /**
+     * Retrieves all ArcDrain arcs in the Petri net.
+     *
+     * @return An ArrayList of ArcDrain objects.
+     */
+    public ArrayList<ArcDrain> getArcsDrain();
+
+    /**
+     * Retrieves all Transitions in the Petri net.
+     *
+     * @return An ArrayList of Transition objects.
+     */
+    public ArrayList<Transition> getTransitions();
+	
+    /**
      * Adds a new Place to the Petri net with a specified initial token count.
      *
      * @param tokens The initial token count for the new Place.
@@ -135,45 +177,4 @@ public interface IPetriNet {
      */
     public void removeTransition(Transition t) throws MissingTransitionException;
 
-    /**
-     * Retrieves all Places in the Petri net.
-     *
-     * @return An ArrayList of Place objects.
-     */
-    public ArrayList<Place> getPlaces();
-
-    /**
-     * Retrieves all ArcTP (Transition to Place arcs) in the Petri net.
-     *
-     * @return An ArrayList of ArcTP objects.
-     */
-    public ArrayList<ArcTP> getArcsTP();
-
-    /**
-     * Retrieves all ArcPT (Place to Transition arcs) in the Petri net.
-     *
-     * @return An ArrayList of ArcPT objects.
-     */
-    public ArrayList<ArcPT> getArcsPT();
-
-    /**
-     * Retrieves all ArcZero arcs in the Petri net.
-     *
-     * @return An ArrayList of ArcZero objects.
-     */
-    public ArrayList<ArcZero> getArcsZero();
-
-    /**
-     * Retrieves all ArcDrain arcs in the Petri net.
-     *
-     * @return An ArrayList of ArcDrain objects.
-     */
-    public ArrayList<ArcDrain> getArcsDrain();
-
-    /**
-     * Retrieves all Transitions in the Petri net.
-     *
-     * @return An ArrayList of Transition objects.
-     */
-    public ArrayList<Transition> getTransitions();
 }

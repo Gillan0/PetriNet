@@ -26,114 +26,6 @@ public class PetriNet implements IPetriNet {
     }
 
     /**
-     * Adds a new Place with a specified number of tokens to the PetriNet.
-     *
-     * @param tokens Initial token count for the Place.
-     * @return The created Place object.
-     * @throws NegativeException If the token count is negative.
-     */
-    @Override
-    public Place addPlace(int tokens) throws NegativeException {
-        if (tokens < 0) {
-            throw new NegativeException("Place can't have a negative amount of tokens");
-        }
-        Place p = new Place(tokens);
-        this.places.add(p);
-        return p;
-    }
-
-    /**
-     * Checks common exceptions when adding an arc, such as negative weights or null references.
-     *
-     * @param w Weight of the arc.
-     * @param p Place involved in the arc.
-     * @param t Transition involved in the arc.
-     * @throws NegativeException If the arc weight is negative.
-     * @throws MissingPlaceException If the Place is null.
-     * @throws MissingTransitionException If the Transition is null.
-     */
-    public void checkAddArcExceptions(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
-        if (w < 0) {
-            throw new NegativeException("Arc weight can't be negative");
-        }
-        if (p == null) {
-            throw new MissingPlaceException("Place can't be null");
-        }
-        if (t == null) {
-            throw new MissingTransitionException("Transition can't be null");
-        }
-    }
-
-    /**
-     * Checks if an ArcTP already exists between the given Place and Transition.
-     *
-     * @param p The Place involved in the Arc.
-     * @param t The Transition involved in the Arc.
-     * @throws DuplicateArcException If an identical ArcTP already exists.
-     */
-    public void checkDuplicateArcTP(Place p, Transition t) throws DuplicateArcException {
-        ArrayList<ArcTP> arcs = t.getArcsTP();
-        for (ArcTP arc : arcs) {
-            if (arc.getPlace() == p) {
-                throw new DuplicateArcException("An Arc already exists between this place and this transition");
-            }
-        }
-    }
-
-    /**
-     * Checks if an ArcPT already exists between the given Place and Transition.
-     *
-     * @param p The Place involved in the Arc.
-     * @param t The Transition involved in the Arc.
-     * @throws DuplicateArcException If an identical ArcPT already exists.
-     */
-    public void checkDuplicateArcPT(Place p, Transition t) throws DuplicateArcException {
-        ArrayList<ArcPT> arcs = t.getArcsPT();
-        for (ArcPT arc : arcs) {
-            if (arc.getPlace() == p) {
-                throw new DuplicateArcException("An Arc already exists between this place and this transition");
-            }
-        }
-    }
-
-    /**
-     * Adds an ArcTP (Transition to Place) to the PetriNet.
-     *
-     * @param w Weight of the arc.
-     * @param p Place involved in the arc.
-     * @param t Transition involved in the arc.
-     * @return The created ArcTP object.
-     */
-    @Override
-    public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
-        checkAddArcExceptions(w, p, t);
-        checkDuplicateArcTP(p, t);
-        ArcTP arc = new ArcTP(w, p, t);
-        t.addArcTP(arc);
-        return arc;
-    }
-
-    /**
-     * Adds an ArcPT (Place to Transition) to the PetriNet.
-     *
-     * @param w Weight of the arc.
-     * @param p Place involved in the arc.
-     * @param t Transition involved in the arc.
-     * @return The created ArcPT object.
-     */
-    @Override
-    public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
-        checkAddArcExceptions(w, p, t);
-        checkDuplicateArcPT(p, t);
-        ArcPT arc = new ArcPT(w, p, t);
-        t.addArcPT(arc);
-        return arc;
-    }
-
-    // Other methods like addArcZero, addArcDrain, addTransition, removePlace, and more follow similar patterns
-    // for adding, removing, and managing arcs and transitions in the PetriNet.
-
-    /**
      * Retrieves all Places in the PetriNet.
      *
      * @return List of Place objects.
@@ -170,7 +62,168 @@ public class PetriNet implements IPetriNet {
         }
         return arcsPT;
     }
+
+	/**
+	 * Retrieves all ArcZero objects in the PetriNet.
+	 *
+	 * @return A list of ArcZero objects.
+	 */
+	@Override
+	public ArrayList<ArcZero> getArcsZero() {
+	    ArrayList<ArcZero> arcsZero = new ArrayList<>();
+	    for (Transition transition : transitions) {
+	        for (ArcPT arc : transition.getArcsPT()) {
+	            if (arc instanceof ArcZero) {
+	                arcsZero.add((ArcZero) arc);
+	            }
+	        }
+	    }
+	    return arcsZero;
+	}
 	
+	/**
+	 * Retrieves all ArcDrain objects in the PetriNet.
+	 *
+	 * @return A list of ArcDrain objects.
+	 */
+	@Override
+	public ArrayList<ArcDrain> getArcsDrain() {
+	    ArrayList<ArcDrain> arcsDrain = new ArrayList<>();
+	    for (Transition transition : transitions) {
+	        for (ArcPT arc : transition.getArcsPT()) {
+	            if (arc instanceof ArcDrain) {
+	                arcsDrain.add((ArcDrain) arc);
+	            }
+	        }
+	    }
+	    return arcsDrain;
+	}
+	
+	/**
+	 * Retrieves all Transitions in the PetriNet.
+	 *
+	 * @return List of Transition objects.
+	 */
+	@Override
+	public ArrayList<Transition> getTransitions() {
+	    return this.transitions;
+	}
+
+    /**
+     * Checks common exceptions when adding an arc, such as negative weights or null references.
+     *
+     * @param w Weight of the arc.
+     * @param p Place involved in the arc.
+     * @param t Transition involved in the arc.
+     * @throws NegativeException If the arc weight is negative.
+     * @throws MissingPlaceException If the Place is null.
+     * @throws MissingTransitionException If the Transition is null.
+     */
+    public void checkAddArcExceptions(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException {
+        if (w < 0) {
+            throw new NegativeException("Arc weight can't be negative");
+        }
+        if (p == null) {
+            throw new MissingPlaceException("Place can't be null");
+        }
+        if (t == null) {
+            throw new MissingTransitionException("Transition can't be null");
+        }
+        if (!this.places.contains(p)) {
+            throw new MissingPlaceException("Place not in PetriNet");
+        }
+        if (!this.transitions.contains(t)) {
+            throw new MissingTransitionException("Transition not in PetriNet");
+        }
+    }
+
+    /**
+     * Checks if an ArcTP already exists between the given Place and Transition.
+     *
+     * @param p The Place involved in the Arc.
+     * @param t The Transition involved in the Arc.
+     * @throws DuplicateArcException If an identical ArcTP already exists.
+     */
+    public void checkDuplicateArcTP(Place p, Transition t) throws DuplicateArcException {
+        ArrayList<ArcTP> arcs = t.getArcsTP();
+        for (ArcTP arc : arcs) {
+            if (arc.getPlace() == p) {
+                throw new DuplicateArcException("An Arc already exists between this place and this transition");
+            }
+        }
+    }
+
+    /**
+     * Checks if an ArcPT already exists between the given Place and Transition.
+     *
+     * @param p The Place involved in the Arc.
+     * @param t The Transition involved in the Arc.
+     * @throws DuplicateArcException If an identical ArcPT already exists.
+     */
+    public void checkDuplicateArcPT(Place p, Transition t) throws DuplicateArcException {
+        ArrayList<ArcPT> arcs = t.getArcsPT();
+        for (ArcPT arc : arcs) {
+            if (arc.getPlace() == p) {
+                throw new DuplicateArcException("An Arc already exists between this place and this transition");
+            }
+        }
+    }
+	
+    /**
+     * Adds a new Place with a specified number of tokens to the PetriNet.
+     *
+     * @param tokens Initial token count for the Place.
+     * @return The created Place object.
+     * @throws NegativeException If the token count is negative.
+     */
+    @Override
+    public Place addPlace(int tokens) throws NegativeException {
+        if (tokens < 0) {
+            throw new NegativeException("Place can't have a negative amount of tokens");
+        }
+        Place p = new Place(tokens);
+        this.places.add(p);
+        return p;
+    }
+
+    
+    
+    /**
+     * Adds an ArcTP (Transition to Place) to the PetriNet.
+     *
+     * @param w Weight of the arc.
+     * @param p Place involved in the arc.
+     * @param t Transition involved in the arc.
+     * @return The created ArcTP object.
+     */
+    @Override
+    public ArcTP addArcTP(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
+        checkAddArcExceptions(w, p, t);
+        checkDuplicateArcTP(p, t);
+        ArcTP arc = new ArcTP(w, p, t);
+        t.addArcTP(arc);
+        return arc;
+    }
+
+    /**
+     * Adds an ArcPT (Place to Transition) to the PetriNet.
+     *
+     * @param w Weight of the arc.
+     * @param p Place involved in the arc.
+     * @param t Transition involved in the arc.
+     * @return The created ArcPT object.
+     */
+    @Override
+    public ArcPT addArcPT(int w, Place p, Transition t) throws NegativeException, MissingPlaceException, MissingTransitionException, DuplicateArcException {
+        checkAddArcExceptions(w, p, t);
+        checkDuplicateArcPT(p, t);
+        ArcPT arc = new ArcPT(w, p, t);
+        t.addArcPT(arc);
+        return arc;
+    }
+
+    // Other methods like addArcZero, addArcDrain, addTransition, removePlace, and more follow similar patterns
+    // for adding, removing, and managing arcs and transitions in the PetriNet.
 	
 	/**
 	 * Adds a new ArcZero to the PetriNet.
@@ -319,52 +372,6 @@ public class PetriNet implements IPetriNet {
 	    }
 	    
 	    this.transitions.remove(t);
-	}
-	
-	/**
-	 * Retrieves all ArcZero objects in the PetriNet.
-	 *
-	 * @return A list of ArcZero objects.
-	 */
-	@Override
-	public ArrayList<ArcZero> getArcsZero() {
-	    ArrayList<ArcZero> arcsZero = new ArrayList<>();
-	    for (Transition transition : transitions) {
-	        for (ArcPT arc : transition.getArcsPT()) {
-	            if (arc instanceof ArcZero) {
-	                arcsZero.add((ArcZero) arc);
-	            }
-	        }
-	    }
-	    return arcsZero;
-	}
-	
-	/**
-	 * Retrieves all ArcDrain objects in the PetriNet.
-	 *
-	 * @return A list of ArcDrain objects.
-	 */
-	@Override
-	public ArrayList<ArcDrain> getArcsDrain() {
-	    ArrayList<ArcDrain> arcsDrain = new ArrayList<>();
-	    for (Transition transition : transitions) {
-	        for (ArcPT arc : transition.getArcsPT()) {
-	            if (arc instanceof ArcDrain) {
-	                arcsDrain.add((ArcDrain) arc);
-	            }
-	        }
-	    }
-	    return arcsDrain;
-	}
-	
-	/**
-	 * Retrieves all Transitions in the PetriNet.
-	 *
-	 * @return List of Transition objects.
-	 */
-	@Override
-	public ArrayList<Transition> getTransitions() {
-	    return this.transitions;
 	}
 	
 	/**

@@ -139,7 +139,7 @@ class PetriNetTest {
 					this.petriNet.getPlaces().get(0),
 					this.petriNet.getTransitions().get(0)
 				);
-			});
+		});
 
 		// Creating an ArcTP requires an existing Place in the PetriNet
 		assertThrows(MissingPlaceException.class, () -> {
