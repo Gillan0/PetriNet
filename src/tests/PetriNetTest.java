@@ -92,8 +92,8 @@ class PetriNetTest {
 		});
 		
 		// Checks that the amount of token of the places are the same that were in() method parameter
-		assertEquals(p1.getToken(), 0);
-		assertEquals(p2.getToken(), 5);
+		assertEquals(p1.getTokens(), 0);
+		assertEquals(p2.getTokens(), 5);
 				
 	}
 
@@ -122,6 +122,75 @@ class PetriNetTest {
 	}
 
 	/**
+	 * Checks that addTokens() method adds the correct amount of tokent to a Place recorded in the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result Adds tokens to a Place without error
+	 * 		   Amount of Token must be positive
+	 * 		   Place must belong to the PetriNet
+	 */
+	@Test
+	void testAddTokens() throws Exception {
+	
+		// Test CAT0
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.addTokens(this.places.get(0), -10);
+		});
+		
+		// Test CAT1
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.addTokens(null, 0);
+		});
+		
+		// Test CAT2
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.addTokens(this.places.get(0), 0);
+		});
+		
+		// Test CAT3
+		this.petriNet.addTokens(this.places.get(0), 10);
+		assertEquals(this.places.get(0).getTokens(), 11);
+		
+	}
+	
+	/**
+	 * Checks that removeTokens() method removes the correct amount of tokent to a Place recorded in the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result Removes tokens to a Place without error
+	 * 		   Amount of token must be positive
+	 * 		   Place must belong to the PetriNet
+	 * 		   Final value of tokens must be positive
+	 */
+	@Test
+	void testRemoveTokens() throws Exception {
+		// Test CRT0
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.removeTokens(this.places.get(0), -10);
+		});
+		
+		// Test CRT1
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.removeTokens(this.places.get(0), 10);
+		});
+		
+		// Test CRT2
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.removeTokens(this.places.get(0), 0);
+		});
+		
+		// Test CRT3
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.removeTokens(null, 0);
+		});
+		
+		// Test CRT4
+		this.petriNet.removeTokens(this.places.get(2), 1);
+		assertEquals(this.places.get(2).getTokens(), 2);
+		
+	}
+	
+	/**
 	 * Checks that addArcTP() method creates an arcTP and adds it to the PetriNet
 	 * 
 	 * @throws Exception
@@ -133,6 +202,7 @@ class PetriNetTest {
 	@Test
 	void testAddArcTP() throws Exception {
 		
+		// Test CAATP0
 		// No ArcTP can be created with a negative weight
 		assertThrows(NegativeException.class, () -> {
 			this.petriNet.addArcTP(-5,
@@ -141,7 +211,17 @@ class PetriNetTest {
 				);
 		});
 
+		// Test CAATP1
 		// Creating an ArcTP requires an existing Place in the PetriNet
+		assertThrows(MissingPlaceException.class, () -> {
+			this.petriNet.addArcTP(10,
+					this.emptyPetriNet.addPlace(0),
+					this.petriNet.getTransitions().get(0)
+				);
+		});
+		
+		// Test CAATP2
+		// Creating an ArcTP requires a non null Place 
 		assertThrows(MissingPlaceException.class, () -> {
 			this.petriNet.addArcTP(10,
 					null,
@@ -149,7 +229,17 @@ class PetriNetTest {
 				);
 		});
 		
+		// Test CAATP3
 		// Creating an ArcTP requires an existing Transition in the PetriNet
+		assertThrows(MissingTransitionException.class, () -> {
+			this.petriNet.addArcTP(0,
+					this.petriNet.getPlaces().get(0),
+					this.emptyPetriNet.addTransition()
+				);
+		});
+		
+		// Test CAATP4
+		// Creating an ArcTP requires a non null Transition
 		assertThrows(MissingTransitionException.class, () -> {
 			this.petriNet.addArcTP(0,
 					this.petriNet.getPlaces().get(0),
@@ -157,15 +247,12 @@ class PetriNetTest {
 				);
 		});
  
+		
+		// Test CAATP5 - 3 test instances
 		ArcTP a1 = this.petriNet.addArcTP(0, this.places.get(0), this.transitions.get(0));
 		ArcTP a2 = this.petriNet.addArcTP(1, this.places.get(1), this.transitions.get(0));
 		ArcTP a3 = this.petriNet.addArcTP(2, this.places.get(0), this.transitions.get(1));
 	
-		// Two ArcTP can't be linked to the same Place and Transition
-		assertThrows(DuplicateArcException.class, () -> {
-			this.petriNet.addArcTP(50, this.places.get(0), this.transitions.get(0));
-		});
-		
 		// Checks that added ArcTP are recorded in the PetriNet
 		assertEquals(this.petriNet.getArcsTP().contains(a1), true);
 		assertEquals(this.petriNet.getArcsTP().contains(a2), true);
@@ -185,15 +272,22 @@ class PetriNetTest {
 		assertEquals(a1.getWeight(), 0);
 		assertEquals(a2.getWeight(), 1);
 		assertEquals(a3.getWeight(), 2);
+		// End Test CAATP5
 		
 		// Checks that the added ArcTP can distribute tokens to its arriving Place
-		assertEquals(this.places.get(0).getToken(), 1);
+		assertEquals(this.places.get(0).getTokens(), 1);
 		a1.distributeTokens();
-		assertEquals(this.places.get(0).getToken(), 1);
+		assertEquals(this.places.get(0).getTokens(), 1);
 		
-		assertEquals(this.places.get(0).getToken(), 1);
+		assertEquals(this.places.get(0).getTokens(), 1);
 		a3.distributeTokens();
-		assertEquals(this.places.get(0).getToken(), 3);
+		assertEquals(this.places.get(0).getTokens(), 3);
+
+		// Test CADTP0
+		// Two ArcTP can't be linked to the same Place and Transition
+		assertThrows(DuplicateArcException.class, () -> {
+			this.petriNet.addArcTP(50, this.places.get(0), this.transitions.get(0));
+		});
 		
 		
 	}
@@ -210,7 +304,7 @@ class PetriNetTest {
 	@Test
 	void testAddArcPT() throws Exception {
 		
-
+		// Test CAAPT0
 		// No ArcPT can be created with a negative weight
 		assertThrows(NegativeException.class, () -> {
 			this.petriNet.addArcPT(-5,
@@ -219,7 +313,17 @@ class PetriNetTest {
 				);
 		});
 
+		// Test CAAPT1
 		// Creating an ArcPT requires an existing Place in the PetriNet
+		assertThrows(MissingPlaceException.class, () -> {
+			this.petriNet.addArcPT(10,
+					this.emptyPetriNet.addPlace(0),
+					this.petriNet.getTransitions().get(0)
+				);
+		});
+		
+		// Test CAAPT2
+		// Creating an ArcPT requires a non null Place
 		assertThrows(MissingPlaceException.class, () -> {
 			this.petriNet.addArcPT(10,
 					null,
@@ -227,7 +331,17 @@ class PetriNetTest {
 				);
 		});
 		
+		// Test CAAPT3
 		// Creating an ArcPT requires an existing Transition in the PetriNet
+		assertThrows(MissingTransitionException.class, () -> {
+			this.petriNet.addArcPT(0,
+					this.petriNet.getPlaces().get(0),
+					this.emptyPetriNet.addTransition()
+				);
+		});
+
+		// Test CAAPT4
+		// Creating an ArcPT requires a non null Transition
 		assertThrows(MissingTransitionException.class, () -> {
 			this.petriNet.addArcPT(0,
 					this.petriNet.getPlaces().get(0),
@@ -235,21 +349,12 @@ class PetriNetTest {
 				);
 		});
 		
+		// Test CAAPT5 - 3 test instances
 		ArcPT a1 = this.petriNet.addArcPT(0, this.places.get(0), this.transitions.get(0));
 		ArcPT a2 = this.petriNet.addArcPT(1, this.places.get(1), this.transitions.get(0));
 		ArcPT a3 = this.petriNet.addArcPT(2, this.places.get(0), this.transitions.get(1));
 	
-		// Two ArcPT (subclass as well) can't be linked to the same Place and Transition 
-		assertThrows(DuplicateArcException.class, () -> {
-			this.petriNet.addArcPT(50, this.places.get(0), this.transitions.get(0));
-		});
-		assertThrows(DuplicateArcException.class, () -> {
-			this.petriNet.addArcZero(50, this.places.get(0), this.transitions.get(0));
-		});
-		assertThrows(DuplicateArcException.class, () -> {
-			this.petriNet.addArcDrain(50, this.places.get(0), this.transitions.get(0));
-		});
-	
+		
 		// Checks that ArcPT is added to PetiNet
 		assertEquals(this.petriNet.getArcsPT().contains(a1), true);
 		assertEquals(this.petriNet.getArcsPT().contains(a2), true);
@@ -270,18 +375,41 @@ class PetriNetTest {
 		assertEquals(a2.getWeight(), 1);
 		assertEquals(a3.getWeight(), 2);
 		
-		// Checks that the added ArcTP can remove token to its starting Place
-		assertEquals(this.places.get(0).getToken(), 1);
-		a1.removeTokens();
-		assertEquals(this.places.get(0).getToken(), 1);
+		// Checks if ArcTP is fireable
+		assertEquals(a1.isFireable(), true);
+		assertEquals(a2.isFireable(), true);
+		assertEquals(a3.isFireable(), false);
 		
-		assertEquals(this.places.get(1).getToken(), 2);
+		// End Test CAAPT5
+		
+		// Checks that the added ArcTP can remove token to its starting Place
+		assertEquals(this.places.get(0).getTokens(), 1);
+		a1.removeTokens();
+		assertEquals(this.places.get(0).getTokens(), 1);
+		
+		assertEquals(this.places.get(1).getTokens(), 2);
 		a2.removeTokens();
-		assertEquals(this.places.get(1).getToken(), 1);
+		assertEquals(this.places.get(1).getTokens(), 1);
 		
 		// Update after removal of tokens
 		assertEquals(a3.isFireable(), false);
 		assertEquals(a2.isFireable(), true);
+		
+		// Two ArcPT (subclass as well) can't be linked to the same Place and Transition 
+		// Test CADPT0
+		assertThrows(DuplicateArcException.class, () -> {
+			this.petriNet.addArcPT(50, this.places.get(0), this.transitions.get(0));
+		});
+
+		// Test CADPT1
+		assertThrows(DuplicateArcException.class, () -> {
+			this.petriNet.addArcDrain(50, this.places.get(0), this.transitions.get(0));
+		});
+				
+		// Test CADPT2
+		assertThrows(DuplicateArcException.class, () -> {
+			this.petriNet.addArcZero(50, this.places.get(0), this.transitions.get(0));
+		});
 		
 	}
 
@@ -467,7 +595,7 @@ class PetriNetTest {
 		
 		// Update after token removal
 		a1.removeTokens();
-		assertEquals(a1.getPlace().getToken(), 0);
+		assertEquals(a1.getPlace().getTokens(), 0);
 		assertEquals(a1.isActive(), false);
 		assertEquals(a1.isFireable(), false);
 		
@@ -967,8 +1095,8 @@ class PetriNetTest {
 
 		this.petriNet.fireTransition(this.transitions.get(0));
 		// Check for token update
-		assertEquals(this.places.get(0).getToken(), 0);
-		assertEquals(this.places.get(1).getToken(), 4);
+		assertEquals(this.places.get(0).getTokens(), 0);
+		assertEquals(this.places.get(1).getTokens(), 4);
 		// Check for fireable state of ArcPT and Transition
 		assertEquals(arcPT1.isFireable(), false);
 		assertThrows(NotFireableTransitionException.class, () -> {
@@ -1009,10 +1137,10 @@ class PetriNetTest {
 		this.petriNet.fireTransition(this.transitions.get(1));
 		
 		//Check change in Token
-		assertEquals(this.places.get(0).getToken(), 9);
-		assertEquals(this.places.get(1).getToken(), 0);
-		assertEquals(this.places.get(2).getToken(), 0);
-		assertEquals(this.places.get(3).getToken(), 6);
+		assertEquals(this.places.get(0).getTokens(), 9);
+		assertEquals(this.places.get(1).getTokens(), 0);
+		assertEquals(this.places.get(2).getTokens(), 0);
+		assertEquals(this.places.get(3).getTokens(), 6);
 	}
 
 }

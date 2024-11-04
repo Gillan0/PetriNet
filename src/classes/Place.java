@@ -33,7 +33,7 @@ public class Place {
      *
      * @return The current number of tokens in this Place.
      */
-    public int getToken() {
+    public int getTokens() {
         return this.tokens;
     }
     

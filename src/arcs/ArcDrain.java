@@ -44,7 +44,7 @@ public class ArcDrain extends ArcPT {
      */
     public boolean isActive() {
         Place place = this.getPlace();
-        return place.getToken() > 0;
+        return place.getTokens() > 0;
     }
 
     /**

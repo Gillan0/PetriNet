@@ -186,7 +186,62 @@ public class PetriNet implements IPetriNet {
         return p;
     }
 
+    /**
+     * Adds tokens to a specified Place already existing in the PetriNet
+     * 
+     * @param p The Place to add tokens to
+     * @param tokens The number of tokens to add
+     * @throws MissingPlaceException If the specified Place is not in PetriNet
+     * @throws NegativeException If the amount of tokens is negative
+     */
+    public void addTokens(Place p, int tokens) throws MissingPlaceException, NegativeException {
+    	
+    	if (p == null) {
+    		throw new MissingPlaceException("Place cannot be null");
+    	}
+    	
+    	if (!this.places.contains(p)) {
+    		throw new MissingPlaceException("Place not in PetriNet");
+    	}
+    	
+    	if (tokens < 0) {
+    		throw new NegativeException("Amount of tokens Negative");
+    	}
+    	
+    	p.setTokens(p.getTokens() + tokens);
+   
+    }
     
+    /**
+     * Removes tokens to a specified Place already existing in the PetriNet
+     * 
+     * @param p The Place to remove tokens to
+     * @param tokens The number of tokens to remove
+     * @throws MissingPlaceException If the specified Place is not in PetriNet
+     * @throws NegativeException If the amount of tokens removed is negative or 
+     * 		   				     if by removing said amount of token, the place has a negative amount of tokens 
+     */
+    public void removeTokens(Place p, int tokens) throws MissingPlaceException, NegativeException {
+    	
+    	if (p == null) {
+    		throw new MissingPlaceException("Place cannot be null");
+    	}
+    	
+    	if (!this.places.contains(p)) {
+    		throw new MissingPlaceException("Place not in PetriNet");
+    	}
+    	
+    	if (tokens < 0) {
+    		throw new NegativeException("Amount of tokens negative");
+    	}
+    	
+    	if (p.getTokens() - tokens < 0) {
+    		throw new NegativeException("Place cannot have a negative amount of tokens");
+    	}
+    	
+    	p.setTokens(p.getTokens() - tokens);
+    	
+    }
     
     /**
      * Adds an ArcTP (Transition to Place) to the PetriNet.

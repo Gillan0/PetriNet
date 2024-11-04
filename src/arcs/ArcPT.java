@@ -30,7 +30,7 @@ public class ArcPT extends Arc {
      */
     public boolean isFireable() {
         Place place = this.getPlace();
-        return place.getToken() >= this.getWeight();
+        return place.getTokens() >= this.getWeight();
     }
 
     /**
@@ -39,6 +39,6 @@ public class ArcPT extends Arc {
      */
     public void removeTokens() {
         Place place = this.getPlace();
-        place.setTokens(place.getToken() - this.getWeight());
+        place.setTokens(place.getTokens() - this.getWeight());
     }
 }

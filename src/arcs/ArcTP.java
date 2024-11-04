@@ -28,6 +28,6 @@ public class ArcTP extends Arc {
      */
     public void distributeTokens() {
         Place place = this.getPlace();
-        place.setTokens(place.getToken() + this.getWeight());
+        place.setTokens(place.getTokens() + this.getWeight());
     }
 }
