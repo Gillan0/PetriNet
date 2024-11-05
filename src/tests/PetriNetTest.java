@@ -1070,6 +1070,8 @@ class PetriNetTest {
 	 */
 	@Test
 	void testFireTransition() throws Exception {
+		
+		// Test CFT0
 		// Not Fireable Setup
 		Transition notFireableTransition = this.petriNet.addTransition();
 		ArcPT notFireableArc = this.petriNet.addArcPT(9999, this.places.get(0), notFireableTransition);
@@ -1080,16 +1082,11 @@ class PetriNetTest {
 			this.petriNet.fireTransition(notFireableTransition);
 		});
 		
-		// Check that if there is a fireable arc and an unfireable arc, the transition is not fireable
-		ArcPT fireableArc = this.petriNet.addArcPT(0, this.places.get(1), notFireableTransition);
-		assertThrows(NotFireableTransitionException.class, () -> {
-			this.petriNet.fireTransition(notFireableTransition);
-		});
-		
+		// Test CFT1
 		// Basic setup : Place0 -> Transition0 -> Place1
 		ArcTP arcTP1 = this.petriNet.addArcTP(2, this.places.get(1), this.transitions.get(0));
 		ArcPT arcPT1 = this.petriNet.addArcPT(1, this.places.get(0), this.transitions.get(0));
-		
+				
 		assertEquals(arcPT1.isFireable(), true);
 		assertEquals(this.transitions.get(0).isFireable(), true);
 
@@ -1097,11 +1094,23 @@ class PetriNetTest {
 		// Check for token update
 		assertEquals(this.places.get(0).getTokens(), 0);
 		assertEquals(this.places.get(1).getTokens(), 4);
+		
+		
+		// Test CFT2
 		// Check for fireable state of ArcPT and Transition
 		assertEquals(arcPT1.isFireable(), false);
 		assertThrows(NotFireableTransitionException.class, () -> {
 			this.petriNet.fireTransition(this.transitions.get(0));
 		});
+		
+		
+		// Test CFT3
+		// Check that if there is a fireable arc and an unfireable arc, the transition is not fireable
+		ArcPT fireableArc = this.petriNet.addArcPT(0, this.places.get(1), notFireableTransition);
+		assertThrows(NotFireableTransitionException.class, () -> {
+			this.petriNet.fireTransition(notFireableTransition);
+		});
+		
 		
 		/* Second setup : 
 		 * 
@@ -1120,7 +1129,8 @@ class PetriNetTest {
 		ArcZero arcZero = this.petriNet.addArcZero(0, this.places.get(2), this.transitions.get(1));
 		ArcTP arcTP2 = this.petriNet.addArcTP(2, this.places.get(3), this.transitions.get(1));
 
-		// Not fireable because of arcDrain
+		// Test CFT4
+		// Not fireable because of arcZero
 		assertThrows(NotFireableTransitionException.class, () -> {
 			this.petriNet.fireTransition(this.transitions.get(1));
 		});
@@ -1130,7 +1140,8 @@ class PetriNetTest {
 		assertEquals(arcZero.isFireable(), false);
 		assertEquals(arcPT2.isFireable(), true);
 		
-		// Make arcDrain fireable
+		// Test CFT5
+		// Make arcZero fireable
 		this.places.get(2).setTokens(0);
 		assertEquals(arcZero.isActive(), true);
 		
