@@ -441,4 +441,60 @@ public class PetriNet implements IPetriNet {
 		
 		t.fire();
 	}
+	
+	/**
+	 * Returns a description of the PetriNet
+	 */
+	public String toString() {
+		String result = "";
+		result += "Content of PetriNet : \n";
+
+		ArrayList<ArcPT> arcsPT = this.getArcsPT();
+		ArrayList<ArcTP> arcsTP = this.getArcsTP();
+		ArrayList<ArcZero> arcsZero = this.getArcsZero();
+		ArrayList<ArcDrain> arcsDrain = this.getArcsDrain();
+		
+		result += "  • " +  this.places.size() + " places\n"; 		
+		result += "  • " +  this.transitions.size() + " transitions\n"; 
+		result += "  • " + arcsPT.size() + " ArcPT\n";
+		result += "  • " + arcsTP.size() + " ArcTP\n";
+		
+		if (this.places.size() > 0)	 {
+			result += "Places : \n";
+			for (int i =0 ; i < this.places.size(); i++) {
+				result += "  • " +  i + " : place with " + this.places.get(i).getTokens() + " tokens\n";
+			}
+		}
+		
+		if (this.transitions.size() > 0)	 {
+			result += "Transitions : \n";
+			for (int i =0 ; i < this.transitions.size(); i++) {
+				result += "  • " +  i + " : transition with " + this.transitions.get(i).getArcsPT().size() + " entering arcs and "+ this.transitions.get(i).getArcsTP().size() + " exiting arcs\n";
+			}
+		}
+			
+		if (arcsTP.size() > 0) {
+			result += "ArcTP : \n";
+			for (int i =0 ; i < arcsTP.size(); i++) {
+				result += "  • " + i + " : ArcTP with a weight of " + arcsTP.get(i).getWeight() + " and connected place with "+ arcsTP.get(i).getPlace().getTokens() + " tokens\n";
+			}
+		}
+		
+		if (arcsPT.size() > 0) {
+			result += "ArcPT : \n";
+			for (int i =0 ; i < arcsPT.size(); i++) {
+				result += "  • " + i + " : "+ arcsPT.get(i).getClass().getSimpleName() +" with a weight of " + arcsPT.get(i).getWeight() + " and connected place with "+ arcsPT.get(i).getPlace().getTokens() + " tokens\n";
+			}
+		}
+		
+		return result;
+			
+	}
+	
+	/**
+	 * Shows content of the PetriNet
+	 */
+	public void show() {
+		System.out.println(this.toString());	
+	}
 }

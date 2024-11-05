@@ -1154,4 +1154,60 @@ class PetriNetTest {
 		assertEquals(this.places.get(3).getTokens(), 6);
 	}
 
+	@Test
+	void testToString() throws Exception {
+		
+		assertEquals(this.emptyPetriNet.toString(), 
+			"Content of PetriNet : \n"
+				+ "  • 0 places\n"
+				+ "  • 0 transitions\n"
+				+ "  • 0 ArcPT\n"
+				+ "  • 0 ArcTP\n"
+		);
+		
+		assertEquals(this.petriNet.toString(), 
+				"Content of PetriNet : \n"
+				+ "  • 3 places\n"
+				+ "  • 2 transitions\n"
+				+ "  • 0 ArcPT\n"
+				+ "  • 0 ArcTP\n"
+				+ "Places : \n"
+				+ "  • 0 : place with 1 tokens\n"
+				+ "  • 1 : place with 2 tokens\n"
+				+ "  • 2 : place with 3 tokens\n"
+				+ "Transitions : \n"
+				+ "  • 0 : transition with 0 entering arcs and 0 exiting arcs\n"
+				+ "  • 1 : transition with 0 entering arcs and 0 exiting arcs\n"
+				+ ""
+		);
+		
+		this.petriNet.addArcTP(1, this.places.get(0), this.transitions.get(0));
+		this.petriNet.addArcPT(2, this.places.get(1), this.transitions.get(0));
+		this.petriNet.addArcZero(3, this.places.get(2), this.transitions.get(1));
+		this.petriNet.addArcDrain(4, this.places.get(0), this.transitions.get(1));
+		
+		this.petriNet.show();
+		
+		assertEquals(this.petriNet.toString(),
+				"Content of PetriNet : \n"
+				+ "  • 3 places\n"
+				+ "  • 2 transitions\n"
+				+ "  • 3 ArcPT\n"
+				+ "  • 1 ArcTP\n"
+				+ "Places : \n"
+				+ "  • 0 : place with 1 tokens\n"
+				+ "  • 1 : place with 2 tokens\n"
+				+ "  • 2 : place with 3 tokens\n"
+				+ "Transitions : \n"
+				+ "  • 0 : transition with 1 entering arcs and 1 exiting arcs\n"
+				+ "  • 1 : transition with 2 entering arcs and 0 exiting arcs\n"
+				+ "ArcTP : \n"
+				+ "  • 0 : ArcTP with a weight of 1 and connected place with 1 tokens\n"
+				+ "ArcPT : \n"
+				+ "  • 0 : ArcPT with a weight of 2 and connected place with 2 tokens\n"
+				+ "  • 1 : ArcZero with a weight of 3 and connected place with 3 tokens\n"
+				+ "  • 2 : ArcDrain with a weight of 4 and connected place with 1 tokens\n"
+		); 
+	}
+	
 }
