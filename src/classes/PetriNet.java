@@ -51,6 +51,7 @@ public class PetriNet implements IPetriNet {
 
     /**
      * Retrieves all ArcPT arcs in the PetriNet by iterating over each Transition and collecting its incoming arcs.
+     * Beware ! Includes ArcDrain and ArcZero
      *
      * @return List of ArcPT objects.
      */
@@ -58,7 +59,7 @@ public class PetriNet implements IPetriNet {
     public ArrayList<ArcPT> getArcsPT() {
         ArrayList<ArcPT> arcsPT = new ArrayList<ArcPT>();
         for (Transition transition : this.transitions) {
-            arcsPT.addAll(transition.getArcsPT());
+        	arcsPT.addAll(transition.getArcsPT());
         }
         return arcsPT;
     }
@@ -342,15 +343,19 @@ public class PetriNet implements IPetriNet {
 	    }
 	    
 	    for (Transition  t: this.getTransitions()) {
-	    	for (ArcTP arcTP : t.getArcsTP()) {
-	    		if (arcTP.getPlace() == p) {
-	    			this.removeArcTP(arcTP);
+	    	
+	    	ArrayList<ArcTP> arcsTP = t.getArcsTP();
+	    	ArrayList<ArcPT> arcsPT = t.getArcsPT();
+	    	
+	    	for (int i = 0; i < arcsTP.size(); i++) {
+	    		if (arcsTP.get(i).getPlace() == p) {
+	    			this.removeArcTP(arcsTP.get(i));
 	    		}
 	    	}
-	    	
-	    	for (ArcPT arcPT : t.getArcsPT()) {
-	    		if (arcPT.getPlace() == p) {
-	    			this.removeArcPT(arcPT);
+	    	 
+	    	for (int i = 0; i < arcsPT.size(); i++) {
+	    		if (arcsPT.get(i).getPlace() == p) {
+	    			this.removeArcPT(arcsPT.get(i));
 	    		}
 	    	}
 	    }
@@ -451,8 +456,6 @@ public class PetriNet implements IPetriNet {
 
 		ArrayList<ArcPT> arcsPT = this.getArcsPT();
 		ArrayList<ArcTP> arcsTP = this.getArcsTP();
-		ArrayList<ArcZero> arcsZero = this.getArcsZero();
-		ArrayList<ArcDrain> arcsDrain = this.getArcsDrain();
 		
 		result += "  • " +  this.places.size() + " places\n"; 		
 		result += "  • " +  this.transitions.size() + " transitions\n"; 

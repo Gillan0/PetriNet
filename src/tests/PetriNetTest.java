@@ -639,7 +639,15 @@ class PetriNetTest {
 			this.petriNet.removePlace(this.places.get(1));
 		});
 		
-		// Removes another Place
+		// Removes a Place connected to an ArcTP, an ArcTP, an ArcZero and an ArcDrain
+		
+		Transition t =  this.petriNet.addTransition();
+		
+		this.petriNet.addArcTP(0, this.places.get(2), this.transitions.get(0));
+		this.petriNet.addArcPT(0, this.places.get(2), this.transitions.get(0));
+		this.petriNet.addArcZero(0, this.places.get(2), this.transitions.get(1));
+		this.petriNet.addArcDrain(0, this.places.get(2), t);
+		
 		this.petriNet.removePlace(this.places.get(2));
 		assertEquals(this.petriNet.getPlaces().size(), 1);
 		assertEquals(this.petriNet.getPlaces().contains(this.places.get(2)), false);
@@ -647,6 +655,9 @@ class PetriNetTest {
 		assertThrows(MissingPlaceException.class, () -> {
 			this.petriNet.removePlace(this.places.get(2));
 		});
+		
+		assertEquals(this.petriNet.getArcsTP().size(), 0);
+		assertEquals(this.petriNet.getArcsPT().size(), 0);
 	}
 
 	/**
@@ -1185,8 +1196,6 @@ class PetriNetTest {
 		this.petriNet.addArcPT(2, this.places.get(1), this.transitions.get(0));
 		this.petriNet.addArcZero(3, this.places.get(2), this.transitions.get(1));
 		this.petriNet.addArcDrain(4, this.places.get(0), this.transitions.get(1));
-		
-		this.petriNet.show();
 		
 		assertEquals(this.petriNet.toString(),
 				"Content of PetriNet : \n"
