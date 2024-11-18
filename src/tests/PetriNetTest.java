@@ -2,11 +2,12 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import arcs.*;
-import classes.*;
 import exception.*;
-import exception.NegativeException;
+import main.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,6 +64,170 @@ class PetriNetTest {
 	}
 
 	/**
+	 * Checks that getPlaces() method returns accurately all places 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getPlaces() returns accurately all places without error
+	 */
+	@Test
+	void testGetPlaces() throws Exception {
+
+		// Checks for base set of PetriNet
+		assertEquals(this.emptyPetriNet.getPlaces().size(),0);
+		assertEquals(this.petriNet.getPlaces().size(),3);
+
+		// Checks after adding a Place
+		Place p = this.emptyPetriNet.addPlace(0);
+		assertEquals(this.emptyPetriNet.getPlaces().size(), 1);
+		assertEquals(this.emptyPetriNet.getPlaces().contains(p), true);
+		
+		// Checks after removing a Place
+		this.emptyPetriNet.removePlace(p);
+		assertEquals(this.emptyPetriNet.getPlaces().size(), 0);
+		assertEquals(this.emptyPetriNet.getPlaces().contains(p), false);
+		
+	}
+
+	/**
+	 * Checks that getArcsTP() method returns accurately all ArcTP 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getArcsTP() returns accurately all ArcTP without error
+	 */
+	@Test
+	void testGetArcsTP() throws Exception {
+
+		// Checks for PetriNet without arcs
+		assertEquals(this.petriNet.getArcsTP().size(), 0);
+		
+		ArcTP a1 = this.petriNet.addArcTP(0, this.places.get(0), this.transitions.get(0));
+		ArcTP a2 = this.petriNet.addArcTP(1, this.places.get(1), this.transitions.get(0));
+		
+		// Checks after adding ArcTP
+		assertEquals(this.petriNet.getArcsTP().size(), 2);
+		assertEquals(this.petriNet.getArcsTP().contains(a1), true);
+		assertEquals(this.petriNet.getArcsTP().contains(a2), true);
+		
+		// Checks after removing ArcTP
+		this.petriNet.removeArcTP(a1);
+		assertEquals(this.petriNet.getArcsTP().size(), 1);
+		assertEquals(this.petriNet.getArcsTP().contains(a1), false);
+		
+	}
+
+	/**
+	 * Checks that getArcsPT() method returns accurately all ArcPT 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getArcsPT() returns accurately all ArcPT without error
+	 */
+	@Test
+	void testGetArcsPT() throws Exception {
+
+		// Checks for PetriNet without arcs 
+		assertEquals(this.petriNet.getArcsPT().size(), 0);
+		
+		ArcPT a1 = this.petriNet.addArcPT(0, this.places.get(0), this.transitions.get(0));
+		ArcPT a2 = this.petriNet.addArcPT(1, this.places.get(1), this.transitions.get(0));
+
+		// Checks after adding ArcPT
+		assertEquals(this.petriNet.getArcsPT().size(), 2);
+		assertEquals(this.petriNet.getArcsPT().contains(a1), true);
+		assertEquals(this.petriNet.getArcsPT().contains(a2), true);
+		
+		// Checks after adding ArcPT
+		this.petriNet.removeArcPT(a1);
+		assertEquals(this.petriNet.getArcsPT().size(), 1);
+		assertEquals(this.petriNet.getArcsPT().contains(a1), false);
+		
+	}
+
+	/**
+	 * Checks that getArcsZero() method returns accurately all ArcZero 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getArcsZero() returns accurately all ArcZero without error
+	 */
+	@Test
+	void testGetArcsZero() throws Exception {
+		
+		// Checks for PetriNet without arcs 
+		assertEquals(this.petriNet.getArcsZero().size(), 0);
+		
+		// Checks after adding ArcZero
+		ArcZero a1 = this.petriNet.addArcZero(0, this.places.get(0), this.transitions.get(0));
+		ArcZero a2 = this.petriNet.addArcZero(1, this.places.get(1), this.transitions.get(0));
+		
+		assertEquals(this.petriNet.getArcsZero().size(), 2);
+		assertEquals(this.petriNet.getArcsZero().contains(a1), true);
+		assertEquals(this.petriNet.getArcsZero().contains(a2), true);
+		
+		
+		// Checks after removal of ArcZero
+		this.petriNet.removeArcZero(a1);
+		assertEquals(this.petriNet.getArcsZero().size(), 1);
+		assertEquals(this.petriNet.getArcsZero().contains(a1), false);
+		
+	}
+
+	/**
+	 * Checks that getArcsDrain() method returns accurately all ArcDrain 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getArcsDrain() returns accurately all ArcDrain without error
+	 */
+	@Test
+	void testGetArcsDrain() throws Exception {
+
+		// Checks for base set of PetriNet
+		assertEquals(this.petriNet.getArcsDrain().size(), 0);
+		
+		// Checks after adding ArcDrain
+		ArcDrain a1 = this.petriNet.addArcDrain(0, this.places.get(0), this.transitions.get(0));
+		ArcDrain a2 = this.petriNet.addArcDrain(1, this.places.get(1), this.transitions.get(0));
+		assertEquals(this.petriNet.getArcsDrain().size(), 2);
+		assertEquals(this.petriNet.getArcsDrain().contains(a1), true);
+		assertEquals(this.petriNet.getArcsDrain().contains(a2), true);
+		
+		// Checks after removing ArcDrain
+		this.petriNet.removeArcDrain(a1);
+		assertEquals(this.petriNet.getArcsDrain().size(), 1);
+		assertEquals(this.petriNet.getArcsDrain().contains(a1), false);
+		
+	}
+
+	/**
+	 * Checks that getTransition() method returns accurately all transitions 
+	 * of the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result getTransition() returns accurately all transitions without error
+	 */
+	@Test
+	void testGetTransitions() throws Exception {
+
+		// Checks for base set of PetriNet 
+		assertEquals(this.emptyPetriNet.getTransitions().size(),0);
+		assertEquals(this.petriNet.getTransitions().size(),2);
+
+		// Checks after adding a transition
+		Transition t = this.emptyPetriNet.addTransition();
+		assertEquals(this.emptyPetriNet.getTransitions().size(), 1);
+		assertEquals(this.emptyPetriNet.getTransitions().contains(t), true);
+		
+		// Checks after removing a transition
+		this.emptyPetriNet.removeTransition(t);
+		assertEquals(this.emptyPetriNet.getTransitions().size(), 0);
+		assertEquals(this.emptyPetriNet.getTransitions().contains(t), false);
+		
+	}
+	
+	/**
 	 * Checks that addPlace() methods creates a Place and puts it in the PetriNet
 	 * 
 	 * @result Place created without any error and with proper amount of tokens,
@@ -98,30 +263,6 @@ class PetriNetTest {
 	}
 
 	/**
-	 * Checks that addTransition() methods creates a Transition and puts it in the PetriNet
-	 * 
-	 * @result Transition created without any error and added to the PetriNet.
-	 *         addTransition() method returns the Transition created.   
-	 */
-	@Test
-	void testAddTransition() {
-
-		// Checks that Transitions are added to the PetriNet
-		Transition t1 = this.emptyPetriNet.addTransition();
-		this.emptyTransitions.add(t1);
-		assertEquals(this.emptyPetriNet.getTransitions().get(0), t1);
-		
-		Transition t2 = this.emptyPetriNet.addTransition();
-		this.emptyTransitions.add(t2);
-		assertEquals(this.emptyPetriNet.getTransitions().get(1), t2);
-
-		// Checks that the Transition created has no Arc linked to it
-		assertEquals(t1.getArcsPT().size(), 0);
-		assertEquals(t1.getArcsTP().size(), 0);
-		
-	}
-
-	/**
 	 * Checks that addTokens() method adds the correct amount of tokent to a Place recorded in the PetriNet
 	 * 
 	 * @throws Exception
@@ -152,44 +293,7 @@ class PetriNetTest {
 		assertEquals(this.places.get(0).getTokens(), 11);
 		
 	}
-	
-	/**
-	 * Checks that removeTokens() method removes the correct amount of tokent to a Place recorded in the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result Removes tokens to a Place without error
-	 * 		   Amount of token must be positive
-	 * 		   Place must belong to the PetriNet
-	 * 		   Final value of tokens must be positive
-	 */
-	@Test
-	void testRemoveTokens() throws Exception {
-		// Test CRT0
-		assertThrows(NegativeException.class, () -> {
-			this.petriNet.removeTokens(this.places.get(0), -10);
-		});
-		
-		// Test CRT1
-		assertThrows(NegativeException.class, () -> {
-			this.petriNet.removeTokens(this.places.get(0), 10);
-		});
-		
-		// Test CRT2
-		assertThrows(MissingPlaceException.class, () -> {
-			this.emptyPetriNet.removeTokens(this.places.get(0), 0);
-		});
-		
-		// Test CRT3
-		assertThrows(MissingPlaceException.class, () -> {
-			this.emptyPetriNet.removeTokens(null, 0);
-		});
-		
-		// Test CRT4
-		this.petriNet.removeTokens(this.places.get(2), 1);
-		assertEquals(this.places.get(2).getTokens(), 2);
-		
-	}
-	
+
 	/**
 	 * Checks that addArcTP() method creates an arcTP and adds it to the PetriNet
 	 * 
@@ -603,6 +707,30 @@ class PetriNetTest {
 	}
 
 	/**
+	 * Checks that addTransition() methods creates a Transition and puts it in the PetriNet
+	 * 
+	 * @result Transition created without any error and added to the PetriNet.
+	 *         addTransition() method returns the Transition created.   
+	 */
+	@Test
+	void testAddTransition() {
+
+		// Checks that Transitions are added to the PetriNet
+		Transition t1 = this.emptyPetriNet.addTransition();
+		this.emptyTransitions.add(t1);
+		assertEquals(this.emptyPetriNet.getTransitions().get(0), t1);
+		
+		Transition t2 = this.emptyPetriNet.addTransition();
+		this.emptyTransitions.add(t2);
+		assertEquals(this.emptyPetriNet.getTransitions().get(1), t2);
+
+		// Checks that the Transition created has no Arc linked to it
+		assertEquals(t1.getArcsPT().size(), 0);
+		assertEquals(t1.getArcsTP().size(), 0);
+		
+	}
+
+	/**
 	 * Checks that removePlace() method removes a Place from a PetriNet
 	 * 
 	 * @throws Exception
@@ -660,6 +788,43 @@ class PetriNetTest {
 		assertEquals(this.petriNet.getArcsPT().size(), 0);
 	}
 
+	/**
+	 * Checks that removeTokens() method removes the correct amount of tokens to a Place recorded in the PetriNet
+	 * 
+	 * @throws Exception
+	 * @result Removes tokens to a Place without error
+	 * 		   Amount of token must be positive
+	 * 		   Place must belong to the PetriNet
+	 * 		   Final value of tokens must be positive
+	 */
+	@Test
+	void testRemoveTokens() throws Exception {
+		// Test CRT0
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.removeTokens(this.places.get(0), -10);
+		});
+		
+		// Test CRT1
+		assertThrows(NegativeException.class, () -> {
+			this.petriNet.removeTokens(this.places.get(0), 10);
+		});
+		
+		// Test CRT2
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.removeTokens(this.places.get(0), 0);
+		});
+		
+		// Test CRT3
+		assertThrows(MissingPlaceException.class, () -> {
+			this.emptyPetriNet.removeTokens(null, 0);
+		});
+		
+		// Test CRT4
+		this.petriNet.removeTokens(this.places.get(2), 1);
+		assertEquals(this.places.get(2).getTokens(), 2);
+		
+	}
+	
 	/**
 	 * Checks that removeArcTP() method removes an ArcTP from a PetriNet
 	 * 
@@ -905,170 +1070,6 @@ class PetriNetTest {
 		
 		
 	}
-
-	/**
-	 * Checks that getPlaces() method returns accurately all places 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getPlaces() returns accurately all places without error
-	 */
-	@Test
-	void testGetPlaces() throws Exception {
-
-		// Checks for base set of PetriNet
-		assertEquals(this.emptyPetriNet.getPlaces().size(),0);
-		assertEquals(this.petriNet.getPlaces().size(),3);
-
-		// Checks after adding a Place
-		Place p = this.emptyPetriNet.addPlace(0);
-		assertEquals(this.emptyPetriNet.getPlaces().size(), 1);
-		assertEquals(this.emptyPetriNet.getPlaces().contains(p), true);
-		
-		// Checks after removing a Place
-		this.emptyPetriNet.removePlace(p);
-		assertEquals(this.emptyPetriNet.getPlaces().size(), 0);
-		assertEquals(this.emptyPetriNet.getPlaces().contains(p), false);
-		
-	}
-
-	/**
-	 * Checks that getArcsTP() method returns accurately all ArcTP 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getArcsTP() returns accurately all ArcTP without error
-	 */
-	@Test
-	void testGetArcsTP() throws Exception {
-
-		// Checks for PetriNet without arcs
-		assertEquals(this.petriNet.getArcsTP().size(), 0);
-		
-		ArcTP a1 = this.petriNet.addArcTP(0, this.places.get(0), this.transitions.get(0));
-		ArcTP a2 = this.petriNet.addArcTP(1, this.places.get(1), this.transitions.get(0));
-		
-		// Checks after adding ArcTP
-		assertEquals(this.petriNet.getArcsTP().size(), 2);
-		assertEquals(this.petriNet.getArcsTP().contains(a1), true);
-		assertEquals(this.petriNet.getArcsTP().contains(a2), true);
-		
-		// Checks after removing ArcTP
-		this.petriNet.removeArcTP(a1);
-		assertEquals(this.petriNet.getArcsTP().size(), 1);
-		assertEquals(this.petriNet.getArcsTP().contains(a1), false);
-		
-	}
-
-	/**
-	 * Checks that getArcsPT() method returns accurately all ArcPT 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getArcsPT() returns accurately all ArcPT without error
-	 */
-	@Test
-	void testGetArcsPT() throws Exception {
-
-		// Checks for PetriNet without arcs 
-		assertEquals(this.petriNet.getArcsPT().size(), 0);
-		
-		ArcPT a1 = this.petriNet.addArcPT(0, this.places.get(0), this.transitions.get(0));
-		ArcPT a2 = this.petriNet.addArcPT(1, this.places.get(1), this.transitions.get(0));
-
-		// Checks after adding ArcPT
-		assertEquals(this.petriNet.getArcsPT().size(), 2);
-		assertEquals(this.petriNet.getArcsPT().contains(a1), true);
-		assertEquals(this.petriNet.getArcsPT().contains(a2), true);
-		
-		// Checks after adding ArcPT
-		this.petriNet.removeArcPT(a1);
-		assertEquals(this.petriNet.getArcsPT().size(), 1);
-		assertEquals(this.petriNet.getArcsPT().contains(a1), false);
-		
-	}
-
-	/**
-	 * Checks that getArcsZero() method returns accurately all ArcZero 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getArcsZero() returns accurately all ArcZero without error
-	 */
-	@Test
-	void testGetArcsZero() throws Exception {
-		
-		// Checks for PetriNet without arcs 
-		assertEquals(this.petriNet.getArcsZero().size(), 0);
-		
-		// Checks after adding ArcZero
-		ArcZero a1 = this.petriNet.addArcZero(0, this.places.get(0), this.transitions.get(0));
-		ArcZero a2 = this.petriNet.addArcZero(1, this.places.get(1), this.transitions.get(0));
-		
-		assertEquals(this.petriNet.getArcsZero().size(), 2);
-		assertEquals(this.petriNet.getArcsZero().contains(a1), true);
-		assertEquals(this.petriNet.getArcsZero().contains(a2), true);
-		
-		
-		// Checks after removal of ArcZero
-		this.petriNet.removeArcZero(a1);
-		assertEquals(this.petriNet.getArcsZero().size(), 1);
-		assertEquals(this.petriNet.getArcsZero().contains(a1), false);
-		
-	}
-
-	/**
-	 * Checks that getArcsDrain() method returns accurately all ArcDrain 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getArcsDrain() returns accurately all ArcDrain without error
-	 */
-	@Test
-	void testGetArcsDrain() throws Exception {
-
-		// Checks for base set of PetriNet
-		assertEquals(this.petriNet.getArcsDrain().size(), 0);
-		
-		// Checks after adding ArcDrain
-		ArcDrain a1 = this.petriNet.addArcDrain(0, this.places.get(0), this.transitions.get(0));
-		ArcDrain a2 = this.petriNet.addArcDrain(1, this.places.get(1), this.transitions.get(0));
-		assertEquals(this.petriNet.getArcsDrain().size(), 2);
-		assertEquals(this.petriNet.getArcsDrain().contains(a1), true);
-		assertEquals(this.petriNet.getArcsDrain().contains(a2), true);
-		
-		// Checks after removing ArcDrain
-		this.petriNet.removeArcDrain(a1);
-		assertEquals(this.petriNet.getArcsDrain().size(), 1);
-		assertEquals(this.petriNet.getArcsDrain().contains(a1), false);
-		
-	}
-
-	/**
-	 * Checks that getTransition() method returns accurately all transitions 
-	 * of the PetriNet
-	 * 
-	 * @throws Exception
-	 * @result getTransition() returns accurately all transitions without error
-	 */
-	@Test
-	void testGetTransitions() throws Exception {
-
-		// Checks for base set of PetriNet 
-		assertEquals(this.emptyPetriNet.getTransitions().size(),0);
-		assertEquals(this.petriNet.getTransitions().size(),2);
-
-		// Checks after adding a transition
-		Transition t = this.emptyPetriNet.addTransition();
-		assertEquals(this.emptyPetriNet.getTransitions().size(), 1);
-		assertEquals(this.emptyPetriNet.getTransitions().contains(t), true);
-		
-		// Checks after removing a transition
-		this.emptyPetriNet.removeTransition(t);
-		assertEquals(this.emptyPetriNet.getTransitions().size(), 0);
-		assertEquals(this.emptyPetriNet.getTransitions().contains(t), false);
-		
-	}
 	
 	/**
 	 * Checks that testFireTransition() method fires transition accordingly.
@@ -1165,6 +1166,9 @@ class PetriNetTest {
 		assertEquals(this.places.get(3).getTokens(), 6);
 	}
 
+	/*
+	 * Checks that the toString() method returns a correct description of the PetriNet
+	 */
 	@Test
 	void testToString() throws Exception {
 		
@@ -1219,4 +1223,30 @@ class PetriNetTest {
 		); 
 	}
 	
+	@Test
+	void testShow() throws Exception {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	    PrintStream originalOut = System.out;
+	    System.setOut(new PrintStream(outputStream));
+	    
+    	this.emptyPetriNet.show();
+        assertEquals(outputStream.toString(), this.emptyPetriNet.toString());
+        
+        outputStream.reset();
+        this.petriNet.show();
+        assertEquals(outputStream.toString(), this.petriNet.toString());
+		
+        
+		this.petriNet.addArcTP(1, this.places.get(0), this.transitions.get(0));
+		this.petriNet.addArcPT(2, this.places.get(1), this.transitions.get(0));
+		this.petriNet.addArcZero(3, this.places.get(2), this.transitions.get(1));
+		this.petriNet.addArcDrain(4, this.places.get(0), this.transitions.get(1));
+		
+		outputStream.reset();
+		this.petriNet.show();
+		assertEquals(outputStream.toString(),this.petriNet.toString());     
+	        
+	    System.setOut(originalOut);
+
+	}
 }

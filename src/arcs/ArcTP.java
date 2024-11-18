@@ -1,9 +1,8 @@
 package arcs;
 
-import classes.Arc;
-import classes.Place;
-import classes.Transition;
-import exception.NegativeException;
+import main.Arc;
+import main.Place;
+import main.Transition;
 
 /**
  * ArcTP models an arc that goes from a Transition to a Place (Arc Transition to Place).
@@ -28,6 +27,6 @@ public class ArcTP extends Arc {
      */
     public void distributeTokens() {
         Place place = this.getPlace();
-        place.setTokens(place.getTokens() + this.getWeight());
+        place.addTokens(this.getWeight());
     }
 }

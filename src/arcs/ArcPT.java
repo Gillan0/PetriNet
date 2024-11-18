@@ -1,9 +1,8 @@
 package arcs;
 
-import classes.Arc;
-import classes.Place;
-import classes.Transition;
-import exception.NegativeException;
+import main.Arc;
+import main.Place;
+import main.Transition;
 
 /**
  * ArcPT models an arc that goes from a Place to a Transition (Arc Place to Transition).
@@ -39,6 +38,6 @@ public class ArcPT extends Arc {
      */
     public void removeTokens() {
         Place place = this.getPlace();
-        place.setTokens(place.getTokens() - this.getWeight());
+        place.removeTokens(this.getWeight());
     }
 }

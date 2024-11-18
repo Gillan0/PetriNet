@@ -1,9 +1,7 @@
 package arcs;
 
-import classes.Arc;
-import classes.Place;
-import classes.Transition;
-import exception.NegativeException;
+import main.Place;
+import main.Transition;
 
 /**
  * ArcDrain is a specialized ArcPT that removes all tokens from the connected Place when the transition fires.

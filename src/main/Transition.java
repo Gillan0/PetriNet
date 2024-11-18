@@ -1,12 +1,11 @@
-package classes;
+package main;
 
 import java.util.ArrayList;
-
 import arcs.ArcPT;
 import arcs.ArcTP;
 
 /**
- * Transition models a transition in the Petri net.
+ * Transition models a transition in the PetriNet.
  * It manages incoming arcs from Places (ArcPT) and outgoing arcs to Places (ArcTP).
  */
 public class Transition {

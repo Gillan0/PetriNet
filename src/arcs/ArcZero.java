@@ -1,12 +1,9 @@
 package arcs;
-
-import classes.Arc;
-import classes.Place;
-import classes.Transition;
-import exception.NegativeException;
+import main.Place;
+import main.Transition;
 
 /**
- * rcZero is a specialized ArcPT that fires only when the connected Place has zero tokens.
+ * ArcZero is a specialized ArcPT that fires only when the connected Place has zero tokens.
  */
 public class ArcZero extends ArcPT {
 

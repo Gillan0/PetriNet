@@ -1,7 +1,7 @@
-package classes;
+package main;
 
 /**
- * The Arc class models an arc in a Petri net, connecting a Place and a Transition with a specific weight.
+ * The Arc class models an arc in a PetriNet, connecting a Place and a Transition with a specific weight.
  */
 public class Arc {
 
