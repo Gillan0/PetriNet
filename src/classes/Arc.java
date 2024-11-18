@@ -1,7 +1,5 @@
 package classes;
 
-import exception.NegativeException;
-
 /**
  * The Arc class models an arc in a Petri net, connecting a Place and a Transition with a specific weight.
  */
