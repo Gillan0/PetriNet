@@ -11,10 +11,14 @@ import interfaces.IPetriNet;
  */
 public class PetriNet implements IPetriNet {
 
-    // List of transitions in the PetriNet.
+    /**
+     *  List of transitions in the PetriNet.
+     */
     private ArrayList<Transition> transitions;
     
-    // List of places in the PetriNet.
+    /**
+     *  List of places in the PetriNet.
+     */
     private ArrayList<Place> places;
 
     /**
@@ -242,25 +246,7 @@ public class PetriNet implements IPetriNet {
 	        throw new MissingPlaceException("Place not in PetriNet");
 	    }
 	    
-	    // Removes Arcs connected to this Place
-	    for (Transition  t: this.getTransitions()) {
-	    	
-	    	ArrayList<ArcTP> arcsTP = t.getArcsTP();
-	    	ArrayList<ArcPT> arcsPT = t.getArcsPT();
-	    	
-	    	for (int i = 0; i < arcsTP.size(); i++) {
-	    		if (arcsTP.get(i).getPlace() == p) {
-	    			this.removeArcTP(arcsTP.get(i));
-	    		}
-	    	}
-	    	 
-	    	for (int i = 0; i < arcsPT.size(); i++) {
-	    		if (arcsPT.get(i).getPlace() == p) {
-	    			this.removeArcPT(arcsPT.get(i));
-	    		}
-	    	}
-	    }
-	    
+	    p.removeConnectedArcs(this);
 	    this.places.remove(p);
 	}
 	
@@ -494,15 +480,13 @@ public class PetriNet implements IPetriNet {
 				description += "  • " +  i + " : place with " + this.places.get(i).getTokens() + " tokens\n";
 			}
 		}
-		
 		// Details for transitions
 		if (this.transitions.size() > 0)	 {
 			description += "Transitions : \n";
 			for (int i =0 ; i < this.transitions.size(); i++) {
 				description += "  • " +  i + " : transition with " + this.transitions.get(i).getArcsPT().size() + " entering arcs and "+ this.transitions.get(i).getArcsTP().size() + " exiting arcs\n";
 			}
-		}
-			
+		}	
 		// Details for ArcTP
 		if (arcsTP.size() > 0) {
 			description += "ArcTP : \n";
@@ -510,7 +494,6 @@ public class PetriNet implements IPetriNet {
 				description += "  • " + i + " : ArcTP with a weight of " + arcsTP.get(i).getWeight() + " and connected place with "+ arcsTP.get(i).getPlace().getTokens() + " tokens\n";
 			}
 		}
-		
 		// Details for ArcPT
 		if (arcsPT.size() > 0) {
 			description += "ArcPT : \n";

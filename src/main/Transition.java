@@ -10,10 +10,14 @@ import arcs.ArcTP;
  */
 public class Transition {
 
-    // List of arcs going from this Transition to connected Places.
+    /**
+     *  List of arcs going from this Transition to connected Places.
+     */
     private ArrayList<ArcTP> arcsTP;
     
-    // List of arcs going from connected Places to this Transition.
+    /**
+     *  List of arcs going from connected Places to this Transition.
+     */
     private ArrayList<ArcPT> arcsPT;
 
     /**

@@ -51,6 +51,8 @@ public class ArcDrain extends ArcPT {
      */
     @Override
     public void removeTokens() {
-        this.getPlace().setTokens(0); // Sets token count to zero, effectively draining all tokens.
+    	Place place = this.getPlace();
+    	int tokens = place.getTokens();
+        place.removeTokens(tokens); // Sets token count to zero, effectively draining all tokens.
     }
 }

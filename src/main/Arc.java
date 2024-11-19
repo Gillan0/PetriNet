@@ -5,14 +5,20 @@ package main;
  */
 public class Arc {
 
-    // Weight of the arc, representing the number of tokens transferred upon firing a transition.
-    protected int weight;
+    /**
+     *  Weight of the arc, representing the number of tokens transferred upon firing a transition.
+     */
+    protected final int weight;
     
-    // The Place linked to this arc.
-    private Place place;
+    /**
+     *  The Place linked to this arc.
+     */
+    private final Place place;
     
-    // The Transition linked to this arc.
-    private Transition transition;
+    /**
+     *  The Transition linked to this arc.
+     */
+    private final Transition transition;
 
     /**
      * Constructor to initialize an Arc with a weight, a Place, and a Transition.
